@@ -1,0 +1,100 @@
+﻿    h1 {
+      color: white; 
+      font-family: tisa; 
+      font-size: 2.5em;
+    }
+
+    input[type=number], select {
+      font-size = 20px
+      width: 100%;
+      padding: 8px 5 px;
+      margin: 10px 0;
+      display: inline-block;
+      border: 1px solid rgb(0,0,0);
+      text-align:right;
+      border-radius: 5px;
+    }
+
+    #view_results {
+      border: 1px solid black; 
+      font-size: 18px; 
+      background-color: rgb(0,0,70);
+      color: white;
+      padding: 18px 30px;
+      opacity: 0.7;
+      transition: 0.2s;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+
+    #view_results:hover {
+      border: 1px solid black; 
+      font-size: 18px; 
+      background-color: rgb(0,0,70);
+      color: white;
+      padding: 18px 30px;
+      opacity: 1;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+   .link {
+
+	background-color: rgb(0, 0, 70);
+	opacity: 0.9;
+        border: 1px rgb(0,0,70); 
+	transition: 0.2s; 
+	font-size: 1em; 
+	color: white; 
+	border-radius: 30px; 
+	padding: 18px 30px;
+    }
+
+   .link:hover {
+
+	background-color: rgb(0, 0, 70);
+	opacity: 1;
+	border: 1px rgb(0,0,70); 
+	font-size: 1em; 
+	color: white; 
+	border-radius: 30px; 
+	padding: 18px 30px;
+    }
+    body {
+      width: 100%;
+    }
+    #main {
+      border-radius: 50px;
+      background-color: rgb(100, 230, 255);
+      padding: 50px;
+    }
+
+    #results {
+      margin-top:30px;
+      border-radius: 20px;
+      background-color: rgb(0, 210, 220);
+      padding: 50px;
+    }
+
+    #documentation {
+      margin-left: 100px;
+      margin-right: 100px;
+      margin-top: 150px;
+      margin-bottom: 150px; 
+      width: auto;
+      height: auto;
+      line-height: 2; 
+      background-color: rgb(50, 100, 100); 
+      background-image: linear-gradient(rgb(50, 50, 160), rgb(150, 210, 160)); 
+      background-attachment: fixed;
+      background-size: cover;
+      color: white; 
+      font-size: 1.4em;
+    }
