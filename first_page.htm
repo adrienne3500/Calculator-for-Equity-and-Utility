@@ -1,0 +1,114 @@
+﻿<!DOCTYPE html>
+<html lang="en-us" style="overflow:auto">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Adrienne Cheung">
+<meta name="description" content="Calculator for Equity and Utility">
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body style="background-color: rgb(0,0,70)">
+<div>
+<center>
+<button class = "link" onclick="document.location = 'https://statisticalatlas.com/place/New-York/New-York/Household-Income'">Source of Sample Income Data for New York City</button>
+<button class = "link" onclick="document.location = 'https://www.bls.gov/cex/2018/aggregate/quintile.pdf'">Source of Sample Expenditure Data</button>
+<button class = "link" onclick="document.location = 'Introduction.htm'">View Documentation</button>
+<center>
+</nav>
+</div>
+<br>
+<br>
+<br>
+<br>
+<h1><center>Calculator for Equity: Utility Pricing for the Residential Sector</center></h1>
+<br>
+<br>
+<p1 style="color: white; font-family: tisa; font-size: 1.5em"><center>The purpose of this calculator is to provide utility providers with a tool to help assess the cost burden imparted on residential consumers, which in turn may help communities accelerate towards cleaner, more sustainable energy consumption practices.</center></p1>
+<br>
+<br>
+<div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
+  <!-- form for user of website tool to enter values to be used in calculations -->
+  <form action="next.htm" method="GET">
+    <label for="notavailable" style="font-size:1.2em">*All questions refer only to figures relating to residential consumers.  In the case that data is unavailable for any of the following queries, please enter N/A for the field(s) in question.</label>
+    <br>
+    <br>
+    <label for="money_sign" style="font-size:1.2em">*Additionally, please make sure that all units of the same type (units of money or units of energy) are the same units (for instance, do not enter some gas-related values in dT, and other gas-related values in therms.)</label>
+    <br>
+    <br>
+    <label for="money_sign" style="font-size:1.2em">*If you do not enter any values, sample data for New York City will be utilized.</label> 
+    <br>
+    <br>
+    <br>
+    <br>
+    <label for="elec_households" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the number of households consuming electricity.</center></label>
+    <input type="number" id="elec_households" name="elec_households">
+    <br>
+    <label for="fix_electric_charge" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide the sum of the average monthly fixed charge for electricity.</center></label>
+    <input type="number" step = "0.01" id="fix_elec_charge" name="fix_elec_charge">
+    <br>
+    <label for="var_elec_charge" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the sum of the average variable charge per unit for electricity.</center></label>
+    <input type="number" step = "0.01" id="var_elec_charge" name="var_elec_charge">
+    <br>
+    <label for="gas_households" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the number of households consuming gas.</center></label>
+    <input type="number" id="gas_households" name="gas_households">
+    <br>
+    <label for="fix_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the sum of the average monthly fixed charge for gas.</center></label>
+    <input type="number" step = "0.01" id="fix_gas_charge" name="fix_gas_charge">
+    <br>
+    <label for="var_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the sum of the average variable charge per unit for gas.</center></label>
+    <input type="number" step = "0.01" id="var_gas_charge" name="var_gas_charge">
+    <br>
+    <label for="avg_elec_consumption" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the average annual electricity consumption.</center></label>
+    <input type="number" step = "0.01" id="avg_elec_consumption" name="avg_elec_consumption">
+    <br>
+    <label for="avg_gas_consumption" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please provide the average annual gas consumption.</center></label>
+    <input type="number" step = "0.01" id="avg_gas_consumption" name="avg_gas_consumption">
+    <br>
+    <label for="maximum_revenue" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide the maximum allowed annual revenue for gas and electricity sales.</center></label>
+    <input type="number" step = "0.01" id="maximum_revenue" name="maximum_revenue">
+    <br>
+    <label for="total_expense" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide the estimated total expense associated with providing electricity/gas to the households in question.</center></label>
+    <input type="number" step = "0.01" id="total_expense" name="total_expense">
+    <br>
+    <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category.XXXXXXXXXXXXXXXXXXXXXX</center></label>
+    <input type="number" step = "0.001" id="elec_usage_ratio" name="elec_usage_ratio">
+    <br>
+    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high gas usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category.XXXXXXXXXXXXXXXXXXXXXX</center></label>
+    <input type="number" step = "0.001" id="gas_usage_ratio" name="gas_usage_ratio">
+    <br>
+    <br>
+    <br>
+    <label for="q_one" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average annual income for the first income quintile of residential consumers. </center></label>
+    <input type="number" id="quintile_one" name="quintile_one">
+    <br>
+    <label for="q_two" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average annual income for the second income quintile of residential consumers.</center></label>
+    <input type="number" id="quintile_two" name="quintile_two">
+    <br>
+    <label for="q_three" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average annual income for the third income quintile of residential consumers.</center></label>
+    <input type="number" id="quintile_three" name="quintile_three">
+    <br>
+    <label for="q_four" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average annual income for the fourth income quintile of residential consumers.</center></label>
+    <input type="number" id="quintile_four" name="quintile_four">
+    <br>
+    <label for="q_five" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average annual income for the fifth income quintile of residential consumers.</center></label>
+    <input type="number" id="quintile_five" name="quintile_five">
+    <br>
+    <label for="benefits" style = "width: 900px; display: inline-block; font-size: 1.2em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
+    <input type="number" step = "0.01" id="benefits" name="benefits">
+    <br>
+    <br>
+    <br>
+    <br>
+    <center><button id="view_results" class="submit-button">Press Enter Key or This Button to View Results</button></center> 
+  </form>
+<br>
+<br>
+<br>
+</body>
+</div>
+<br>
+<br>
+<br>
+<br>
+</html>
+

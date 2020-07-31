@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Adrienne Cheung">
+<meta name="description" content="Calculator for Equity and Utility">
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body style="background-color: rgb(0,0,70);">
+<br>
+<br>
+<h1><center>Calculated Results</center></h1>
+<div id = "main">
+<p id = "first"></p>
+</div>
+<br>
+<div id = "main">
+<p id = "sec"></p>
+<p id = "output"></p>
+<p id= "hh1"></p>
+<p id= "hh2"></p>
+<p id = "hh3"></p>
+<p id="hh4"></p>
+<p id = "hh5"></p>
+</div>
+<script language="JavaScript">
+
+// gets keys (for which values were requested in the form) from text in window search bar
+
+function getKys() {
+    var s = window.location.search.replace(/[0-9]/g, ",").replace(/\W/ig, ',').replace(/,+/g,',');
+    var s = s.replace("one", "1").replace("two", "2").replace("three", "3").replace("four", "4").replace("five", "5");
+    var kys = s.substr(1,s.length-2).split(',');
+    getValues(kys);
+}
+
+// gets values (the numerical inputs) from text in window search bar
+
+
+function getValues(kys) {
+    var mykeys = kys;
+    var s = window.location.search.replace(/[^\d.-]/g, ',').replace(/,+/g,',');
+    var vals = s.substr(1, s.length-1).split(',');
+    makeDictionary(mykeys, vals); 
+}
+
+// combines the keys and values into one dictionary where each key corresponds to a value
+function makeDictionary(mykeys, vals) {
+    var mykys = mykeys;
+    var myvals = vals;
+    const ob = {};
+    // list of default values that will be used if a corresponding value was not typed into the form
+    // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for electricity, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
+    var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 0, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 946.50];
+
+    for (var i = 0; i < mykys.length; i++) {
+        ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
+    }
+    var output = '';
+    for (var property in ob) {
+        output += property + ': ' + ob[property]+'; ';
+    }
+    hhcategories(ob);
+}
+
+// uses values from dictionary to construct household categories
+
+// 0
+function hhcategories(myob) {
+    var ob = myob;
+    var i = 1;
+    var quint = 1;
+    var hhtypes = { };
+    while (i<=15) {
+      hhtypes[i] = { };
+      i+=1;
+    }
+    var i = 1;
+    while (quint<=5) {
+      var qnum = `quintile_${ quint }`;
+      hhtypes[i]["income"] = parseFloat(myob[qnum]);
+      hhtypes[i+1]["income"] = parseFloat(myob[qnum]);
+      hhtypes[i+2]["income"] = parseFloat(myob[qnum]);
+      i+=3;
+      quint++;
+    }
+    proportion(ob, hhtypes);
+}
+
+// values in list "prop" are based off values from Pearson-Tukey approximation method
+
+// 1
+function proportion(ob, hhs) {
+    var hhtypes = hhs;
+    var myob = ob;
+    var prop = [0.037, 0.126, 0.037];
+    var i = 1;
+    var ratio = 0;
+    while (i <= 13) {
+      hhtypes[i]["distribution"] = parseFloat(prop[ratio]);
+      hhtypes[i+1]["distribution"] = parseFloat(prop[ratio+1]);
+      hhtypes[i+2]["distribution"] = parseFloat(prop[ratio+2]);
+      i+=3;
+    }
+    elec_usage_vals(myob, hhtypes);
+}
+
+// 2
+function elec_usage_vals(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var avg_elec_consumption = parseFloat(myob["avg_elec_consumption"]);
+    var i = 1;
+    var elec_usage_ratio = parseFloat(myob["elec_usage_ratio"]);
+    var pow = 3;
+    while (i<=13) {
+      hhtypes[i]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow)));
+      hhtypes[i+1]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow-1)));
+      hhtypes[i+2]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow-2)));
+      i +=3;
+      pow -=1;
+    }   
+    ann_elec_consumption(myob, hhtypes);
+}
+
+// 3
+function ann_elec_consumption(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var elec_households = myob["elec_households"];
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["ann_elec_per_type"] = elec_households * hhtypes[i]["distribution"] * hhtypes[i]["elec_usage_category"];
+      hhtypes[i+1]["ann_elec_per_type"] = elec_households * hhtypes[i+1]["distribution"] * hhtypes[i+1]["elec_usage_category"];
+      hhtypes[i+2]["ann_elec_per_type"] = elec_households * hhtypes[i+2]["distribution"] * hhtypes[i+2]["elec_usage_category"];
+      i++;
+    } 
+    ann_elec_payment_per_hhtype(myob, hhtypes);
+}
+
+
+// 4
+function ann_elec_payment_per_hhtype(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var var_elec_charge = myob["var_elec_charge"];
+    var fix_elec_charge = myob["fix_elec_charge"];
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
+      hhtypes[i+1]["elec_payment_by_type"] = hhtypes[i+1]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
+      hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
+      i++;
+    } 
+    ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes)
+}
+
+// 5
+function ann_elec_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var elec_households = myob["elec_households"];
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] = hhtypes[i]["elec_payment_by_type"]/(elec_households*hhtypes[i]["distribution"]);
+      hhtypes[i+1]["elec_payment_by_hh_per_type_no_ben"] = hhtypes[i+1]["elec_payment_by_type"]/(elec_households*hhtypes[i+1]["distribution"]); 
+      hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["elec_payment_by_type"]/(elec_households*hhtypes[i+2]["distribution"]);
+      i++;
+    } 
+    elec_burden_before_benefits(myob, hhtypes)
+}
+
+
+
+// 6
+function elec_burden_before_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["elec_burden_before_benefits"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"]/hhtypes[i]["income"]);
+      hhtypes[i+1]["elec_burden_before_benefits"] = (hhtypes[i+1]["elec_payment_by_hh_per_type_no_ben"]/hhtypes[i+1]["income"]);
+      hhtypes[i+2]["elec_burden_before_benefits"] = (hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"]/hhtypes[i+2]["income"]);
+      i++;
+    } 
+    gas_usage_vals(myob, hhtypes);   
+}
+
+
+
+// 7
+function gas_usage_vals(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var i = 1;
+    var pow = 3;
+    while (i<=13) {
+      hhtypes[i]["gas_usage_category"] = (parseFloat(myob["avg_gas_consumption"]/(myob["gas_usage_ratio"]**(pow))));
+      hhtypes[i+1]["gas_usage_category"] = (parseFloat(myob["avg_gas_consumption"]/(myob["gas_usage_ratio"]**(pow-1))));
+      hhtypes[i+2]["gas_usage_category"] = (parseFloat(myob["avg_gas_consumption"]/(myob["gas_usage_ratio"]**(pow-2))));
+      i+=3;
+      pow-=1;
+    }   
+    ann_gas_consumption(myob, hhtypes);
+}
+
+
+
+// 8
+function ann_gas_consumption(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["ann_gas_per_type"] = (myob["gas_households"] * hhtypes[i]["distribution"] * hhtypes[i]["gas_usage_category"]);
+      hhtypes[i+1]["ann_gas_per_type"] = (myob["gas_households"] * hhtypes[i+1]["distribution"] * hhtypes[i+1]["gas_usage_category"]); 
+      hhtypes[i+2]["ann_gas_per_type"] = (myob["gas_households"] * hhtypes[i+2]["distribution"] * hhtypes[i+2]["gas_usage_category"]);
+      i++;
+    } 
+    ann_gas_payment_per_hhtype(myob, hhtypes);
+}
+
+
+
+// 9
+function ann_gas_payment_per_hhtype(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var var_gas_charge = myob["var_gas_charge"];
+    var fix_gas_charge = myob["fix_gas_charge"];
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
+      hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
+      hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
+      i++;
+    } 
+    ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes)
+}
+
+// 10
+function ann_gas_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var gas_households = myob["gas_households"];
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i]["gas_payment_by_type"]/(gas_households*hhtypes[i]["distribution"]);
+      hhtypes[i+1]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i+1]["gas_payment_by_type"]/(gas_households*hhtypes[i+1]["distribution"]);
+      hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["gas_payment_by_type"]/(gas_households*hhtypes[i+2]["distribution"]);
+      i++;
+    }    
+    gas_burden_before_benefits(myob, hhtypes);
+}
+
+// 11
+function gas_burden_before_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["gas_burden_before_benefits"] = (hhtypes[i]["gas_payment_by_hh_per_type_no_ben"]/hhtypes[i]["income"]);
+      hhtypes[i+1]["gas_burden_before_benefits"] = (hhtypes[i+1]["gas_payment_by_hh_per_type_no_ben"]/hhtypes[i+1]["income"]); 
+      hhtypes[i+2]["gas_burden_before_benefits"] = (hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"]/hhtypes[i+2]["income"]);
+      i++;
+    } 
+    ann_combined_payment_per_hh_per_hhtype_after_benefits(myob, hhtypes);   
+}   
+
+// 12
+function ann_combined_payment_per_hh_per_hhtype_after_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var benefits = myob["benefits"];
+    var i = 1;
+    while (i<=6) {
+      hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i]["gas_payment_by_hh_per_type_no_ben"] - benefits);
+      hhtypes[i+1]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i+1]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+1]["gas_payment_by_hh_per_type_no_ben"] - benefits); 
+      hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"] - benefits);
+      i++;
+    } 
+    var i = 7;
+    while (i<=13) {
+      hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i]["gas_payment_by_hh_per_type_no_ben"]);
+      hhtypes[i+1]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i+1]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+1]["gas_payment_by_hh_per_type_no_ben"]); 
+      hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"]);
+      i++;
+    }
+    combined_cost_burden_after_benefits(myob, hhtypes)
+}
+
+// 13
+function combined_cost_burden_after_benefits(ob, hhs) {
+    var myob = ob;
+    var hhtypes = hhs;
+    var i = 1;
+    while (i<=13) {
+      hhtypes[i]["combined_cost_burden_after_benefits"] = (hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i]["income"]);
+      hhtypes[i+1]["combined_cost_burden_after_benefits"] = (hhtypes[i+1]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i+1]["income"]);
+      hhtypes[i+2]["combined_cost_burden_after_benefits"] = (hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i+2]["income"]);
+      i++;
+    } 
+    var out = "";
+    out += "Contents of first income category:" + "<br>";
+    for (var i in hhtypes[1]) {
+        out += i + ': ' + hhtypes[1][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of second income category:" + "<br>";
+    for (var i in hhtypes[2]) {
+        out += i + ': ' + hhtypes[2][i] + "<br>";
+    }
+    out += "<br>" + "Contents of third income category:" + "<br>";
+    for (var i in hhtypes[3]) {
+        out += i + ': ' + hhtypes[3][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of fourth income category:"+ "<br>";
+    for (var i in hhtypes[4]) {
+        out += i + ': ' + hhtypes[4][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of fifth income category:"+ "<br>";
+    for (var i in hhtypes[5]) {
+        out += i + ': ' + hhtypes[5][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of sixth income category:"+ "<br>";
+    for (var i in hhtypes[6]) {
+        out += i + ': ' + hhtypes[6][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of seventh income category:"+ "<br>";
+    for (var i in hhtypes[7]) {
+        out += i + ': ' + hhtypes[7][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of eighth income category:"+ "<br>";
+    for (var i in hhtypes[8]) {
+        out += i + ': ' + hhtypes[8][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of ninth income category:"+ "<br>";
+    for (var i in hhtypes[9]) {
+        out += i + ': ' + hhtypes[9][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of tenth income category:"+ "<br>";
+    for (var i in hhtypes[10]) {
+        out += i + ': ' + hhtypes[10][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of eleventh income category:"+ "<br>";
+    for (var i in hhtypes[11]) {
+        out += i + ': ' + hhtypes[11][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of twelfth income category:"+ "<br>";
+    for (var i in hhtypes[9]) {
+        out += i + ': ' + hhtypes[12][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of thirteenth income category:"+ "<br>";
+    for (var i in hhtypes[13]) {
+        out += i + ': ' + hhtypes[13][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of fourteenth income category:"+ "<br>";
+    for (var i in hhtypes[14]) {
+        out += i + ': ' + hhtypes[14][i] + "<br>" + "<br>";
+    }
+    out += "<br>" + "Contents of fifteenth income category:"+ "<br>";
+    for (var i in hhtypes[15]) {
+        out += i + ': ' + hhtypes[15][i] + "<br>" + "<br>";
+    }
+    document.getElementById("output").innerHTML = out;
+
+
+}
+
+var inputs = getKys();
+
+</script>
+</body>
+ </html>
