@@ -6,25 +6,24 @@
 <meta name="description" content="Calculator for Equity and Utility">
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
+<script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 </head>
 <body style="background-color: rgb(0,0,70);">
 <br>
 <br>
 <h1><center>Calculated Results</center></h1>
 <div id = "main">
-<p id = "first"></p>
-</div>
-<br>
-<div id = "main">
-<p id = "sec"></p>
+<center><canvas id="myChart" width="1000" height="400"></canvas></center>
 <p id = "output"></p>
-<p id= "hh1"></p>
-<p id= "hh2"></p>
-<p id = "hh3"></p>
-<p id="hh4"></p>
-<p id = "hh5"></p>
+<p id = "verdict"></p>
+<center><button class = "switch_page" onclick="document.location = 'first_page.htm'">Re-Calculate With New Inputs</button></center>
 </div>
+<meta charset="utf-8" />
+<title>Chart.js demo</title>
 <script language="JavaScript">
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxxxxxxxxxxxxxxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXXXXXXXXXX inform users of severity of problem. xxxxxxxxxxxxxxxxxxxxxxxxxx save scenarios xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing xxxxxxxxxxxxxxx
+
 
 // gets keys (for which values were requested in the form) from text in window search bar
 
@@ -52,7 +51,7 @@ function makeDictionary(mykeys, vals) {
     const ob = {};
     // list of default values that will be used if a corresponding value was not typed into the form
     // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for electricity, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-    var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 0, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 946.50];
+    var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
 
     for (var i = 0; i < mykys.length; i++) {
         ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
@@ -347,7 +346,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
         out += i + ': ' + hhtypes[11][i] + "<br>" + "<br>";
     }
     out += "<br>" + "Contents of twelfth income category:"+ "<br>";
-    for (var i in hhtypes[9]) {
+    for (var i in hhtypes[12]) {
         out += i + ': ' + hhtypes[12][i] + "<br>" + "<br>";
     }
     out += "<br>" + "Contents of thirteenth income category:"+ "<br>";
@@ -363,12 +362,72 @@ function combined_cost_burden_after_benefits(ob, hhs) {
         out += i + ': ' + hhtypes[15][i] + "<br>" + "<br>";
     }
     document.getElementById("output").innerHTML = out;
+    var newlist = [];
+    var i = 1;
+    while (i <= 15) {
+      newlist.push(hhtypes[i]["combined_cost_burden_after_benefits"]);
+      i += 1;
+    }
+    wow(newlist);
+    var i = 1;
+    var revenue = 0;
+    while (i <= 15) {
+      revenue += hhtypes[i]["elec_payment_by_type"] + hhtypes[i]["gas_payment_by_type"];
+      i += 1;
+    }
+    wow(newlist);
+    if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
+      document.getElementById("verdict").innerHTML += "The upper threshold for energy cost burden has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+    } 
+    if (revenue < myob["total_expense"]) {
+      document.getElementById("verdict").innerHTML += "The lower threshold for revenue has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+    }
+    if (revenue > myob["maximum_revenue"]) {
+    document.getElementById("verdict").innerHTML += "The upper threshold for revenue has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+    }
+    if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){
+      document.getElementById("verdict").innerHTML += "All constraints have been met!";
+    }
+  }
+
+  function wow(info) {
+    var i = info;
+    var ctx = document.getElementById("myChart");
+    var chart = new Chart(ctx, {
+      // The type of chart we want to create
+      type: 'bar',
+    
+      // The data for our dataset
+      data: {
+        labels: ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6", "Category 7", "Category 8", "Category 9", "Category 10", "Category 11", "Category 12", "Category 13", "Category 14", "Category 15"],
+        datasets: [
+          {
+            label: "Utility Cost Burden Before Modifications",
+            backgroundColor: "rgb(50, 40, 120)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10], info[11], info[12], info[13], info[14]]
+          },
+
+          {
+            label: "Utility Cost Burden After Modifications",
+            backgroundColor: "rgb(160, 0, 160)",
+            borderColor: "rgb(255, 99, 132)",
+            data: [info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10], info[11], info[12], info[13], info[14]]
+          } 
+        ]
+      },
+      options: {
+        barValueSpacing: 50,
+        responsive: true,
+        maintainAspectRatio: false
+      }
+   
+    });
+  };
 
 
-}
-
-var inputs = getKys();
+getKys();
 
 </script>
 </body>
- </html>
+</html>
