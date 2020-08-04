@@ -49,11 +49,13 @@ function makeDictionary(mykeys, vals) {
     var mykys = mykeys;
     var myvals = vals;
     const ob = {};
+    const original = {};
     // list of default values that will be used if a corresponding value was not typed into the form
     // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for electricity, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
     var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
 
     for (var i = 0; i < mykys.length; i++) {
+        original[mykys[i]] = parseFloat(sample[i]);
         ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
     }
     var output = '';
@@ -365,10 +367,9 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     var newlist = [];
     var i = 1;
     while (i <= 15) {
-      newlist.push(hhtypes[i]["combined_cost_burden_after_benefits"]);
+      newlist.push(hhtypes[i]["combined_cost_burden_after_benefits"]*100);
       i += 1;
     }
-    wow(newlist);
     var i = 1;
     var revenue = 0;
     while (i <= 15) {
@@ -396,18 +397,17 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     var chart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'bar',
-    
       // The data for our dataset
       data: {
-        labels: ["Category 1", "Category 2", "Category 3", "Category 4", "Category 5", "Category 6", "Category 7", "Category 8", "Category 9", "Category 10", "Category 11", "Category 12", "Category 13", "Category 14", "Category 15"],
-        datasets: [
-          {
+        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
+
+        datasets: [{
             label: "Utility Cost Burden Before Modifications",
+            fontSize: 20,
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
             data: [info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10], info[11], info[12], info[13], info[14]]
           },
-
           {
             label: "Utility Cost Burden After Modifications",
             backgroundColor: "rgb(160, 0, 160)",
@@ -419,7 +419,38 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       options: {
         barValueSpacing: 50,
         responsive: true,
-        maintainAspectRatio: false
+        maintainAspectRatio: false,
+        legend: {
+          display: true,
+          labels: {
+            fontSize: 17
+          }
+
+        },
+        scales: {
+          xAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Household Category',
+              fontSize: 20,
+            },
+            ticks: {
+              autoSkip: false,
+              fontSize: 20,
+            }
+          }],
+          yAxes: [{
+            scaleLabel: {
+              display: true,
+              labelString: 'Percentage',
+              fontSize: 20,
+            },
+            ticks: {
+              autoSkip: false,
+              fontSize: 20,
+            }
+          }]
+        }
       }
    
     });
