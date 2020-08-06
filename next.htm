@@ -117,7 +117,7 @@ function getKys() {
     var s = window.location.search.replace(/[0-9]/g, ",").replace(/\W/ig, ',').replace(/,+/g,',');
     var s = s.replace("one", "1").replace("two", "2").replace("three", "3").replace("four", "4").replace("five", "5");
     var kys = s.substr(1,s.length-2).split(',');
-    getValues(kys);
+    return kys;
 }
 
 // gets values (the numerical inputs) from text in window search bar
@@ -126,8 +126,9 @@ function getKys() {
 function getValues(kys) {
     var mykeys = kys;
     var s = window.location.search.replace(/[^\d.-]/g, ',').replace(/,+/g,',');
-    var vals = s.substr(1, s.length-1).split(',');
-    makeDictionary(mykeys, vals); 
+    var vals = s.substr(1, s.length-1).split(','); 
+    alert(2);
+    return vals;
 }
 
 // combines the keys and values into one dictionary where each key corresponds to a value
@@ -135,7 +136,6 @@ function makeDictionary(mykeys, vals) {
     var mykys = mykeys;
     var myvals = vals;
     var ob = {};
-    const original = {};
     // list of default values that will be used if a corresponding value was not typed into the form
     // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for electricity, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
     var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
@@ -148,7 +148,8 @@ function makeDictionary(mykeys, vals) {
         output += property + ': ' + ob[property]+'; ';
     }
     alert(JSON.stringify(ob));
-    hhcategories(ob);
+    var myresult = hhcategories(ob);
+    return myresult;
 }
 
 // uses values from dictionary to construct household categories
@@ -172,7 +173,8 @@ function hhcategories(myob) {
       i+=3;
       quint++;
     }
-    proportion(ob, hhtypes);
+    var result0 = proportion(ob, hhtypes);
+    return result0;
 }
 
 // values in list "prop" are based off values from Pearson-Tukey approximation method
@@ -190,7 +192,8 @@ function proportion(ob, hhs) {
       hhtypes[i+2]["distribution"] = parseFloat(prop[ratio+2]);
       i+=3;
     }
-    elec_usage_vals(myob, hhtypes);
+    var result1 = elec_usage_vals(myob, hhtypes);
+    return result1;
 }
 
 // 2
@@ -208,7 +211,8 @@ function elec_usage_vals(ob, hhs) {
       i +=3;
       pow -=1;
     }   
-    ann_elec_consumption(myob, hhtypes);
+    var result2 = ann_elec_consumption(myob, hhtypes);
+    return result2;
 }
 
 // 3
@@ -223,7 +227,8 @@ function ann_elec_consumption(ob, hhs) {
       hhtypes[i+2]["ann_elec_per_type"] = elec_households * hhtypes[i+2]["distribution"] * hhtypes[i+2]["elec_usage_category"];
       i++;
     } 
-    ann_elec_payment_per_hhtype(myob, hhtypes);
+    var result3 = ann_elec_payment_per_hhtype(myob, hhtypes);
+    return result3;
 }
 
 
@@ -240,7 +245,8 @@ function ann_elec_payment_per_hhtype(ob, hhs) {
       hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
       i++;
     } 
-    ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes)
+    var result4 = ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
+    return result4;
 }
 
 // 5
@@ -255,7 +261,8 @@ function ann_elec_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
       hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["elec_payment_by_type"]/(elec_households*hhtypes[i+2]["distribution"]);
       i++;
     } 
-    elec_burden_before_benefits(myob, hhtypes)
+    var result5 = elec_burden_before_benefits(myob, hhtypes);
+    return result5;
 }
 
 
@@ -271,7 +278,8 @@ function elec_burden_before_benefits(ob, hhs) {
       hhtypes[i+2]["elec_burden_before_benefits"] = (hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"]/hhtypes[i+2]["income"]);
       i++;
     } 
-    gas_usage_vals(myob, hhtypes);   
+    var result6 = gas_usage_vals(myob, hhtypes);   
+    return result6;
 }
 
 
@@ -289,7 +297,8 @@ function gas_usage_vals(ob, hhs) {
       i+=3;
       pow-=1;
     }   
-    ann_gas_consumption(myob, hhtypes);
+    var result7 = ann_gas_consumption(myob, hhtypes);
+    return result7;
 }
 
 
@@ -305,7 +314,8 @@ function ann_gas_consumption(ob, hhs) {
       hhtypes[i+2]["ann_gas_per_type"] = (myob["gas_households"] * hhtypes[i+2]["distribution"] * hhtypes[i+2]["gas_usage_category"]);
       i++;
     } 
-    ann_gas_payment_per_hhtype(myob, hhtypes);
+    var result8 = ann_gas_payment_per_hhtype(myob, hhtypes);
+    return result8;
 }
 
 
@@ -323,7 +333,8 @@ function ann_gas_payment_per_hhtype(ob, hhs) {
       hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
       i++;
     } 
-    ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes)
+    var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
+    return result9;
 }
 
 // 10
@@ -338,7 +349,8 @@ function ann_gas_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
       hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["gas_payment_by_type"]/(gas_households*hhtypes[i+2]["distribution"]);
       i++;
     }    
-    gas_burden_before_benefits(myob, hhtypes);
+    var result10 = gas_burden_before_benefits(myob, hhtypes);
+    return result10;
 }
 
 // 11
@@ -352,7 +364,8 @@ function gas_burden_before_benefits(ob, hhs) {
       hhtypes[i+2]["gas_burden_before_benefits"] = (hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"]/hhtypes[i+2]["income"]);
       i++;
     } 
-    ann_combined_payment_per_hh_per_hhtype_after_benefits(myob, hhtypes);   
+    var result11 = ann_combined_payment_per_hh_per_hhtype_after_benefits(myob, hhtypes);  
+    return result11; 
 }   
 
 // 12
@@ -374,7 +387,8 @@ function ann_combined_payment_per_hh_per_hhtype_after_benefits(ob, hhs) {
       hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"]);
       i++;
     }
-    combined_cost_burden_after_benefits(myob, hhtypes)
+    var result12 = combined_cost_burden_after_benefits(myob, hhtypes);
+    return result12;
 }
 
 // 13
@@ -462,9 +476,8 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       revenue += hhtypes[i]["elec_payment_by_type"] + hhtypes[i]["gas_payment_by_type"];
       i += 1;
     }
-    wow(newlist);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML += "The upper threshold for energy cost burden has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+      document.getElementById("verdict").innerHTML = "The upper threshold for energy cost burden has been surpassed. You may want to alter your entries for XXXXXXXXX.";
     } 
     if (revenue < myob["total_expense"]) {
       document.getElementById("verdict").innerHTML += "The lower threshold for revenue has been surpassed. You may want to alter your entries for XXXXXXXXX.";
@@ -475,30 +488,32 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){
       document.getElementById("verdict").innerHTML += "All constraints have been met!";
     }
+    result13 = newlist;
+    return result13;
   }
 
-  function wow(info) {
-    var i = info;
+function wow(original, modified) {
+    var o = original;
+    var m = modified;
     var ctx = document.getElementById("myChart");
-    var chart = new Chart(ctx, {
+    var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'bar',
       // The data for our dataset
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
-
         datasets: [{
             label: "Utility Cost Burden Before Modifications",
             fontSize: 20,
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
-            data: [info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10], info[11], info[12], info[13], info[14]]
+            data: [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8], o[9], o[10], o[11], o[12], o[13], o[14]]
           },
           {
             label: "Utility Cost Burden After Modifications",
             backgroundColor: "rgb(160, 0, 160)",
             borderColor: "rgb(255, 99, 132)",
-            data: [info[0], info[1], info[2], info[3], info[4], info[5], info[6], info[7], info[8], info[9], info[10], info[11], info[12], info[13], info[14]]
+            data: [m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14]]
           } 
         ]
       },
@@ -511,7 +526,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
           labels: {
             fontSize: 17
           }
-
         },
         scales: {
           xAxes: [{
@@ -524,11 +538,11 @@ function combined_cost_burden_after_benefits(ob, hhs) {
               autoSkip: false,
               fontSize: 20,
             }
-          }],
+          }],          
           yAxes: [{
             scaleLabel: {
               display: true,
-              labelString: 'Percentage of Annual Household Income After Taxes That is Paid Towards Utility',
+              labelString: 'Utility Cost Burden' ,
               fontSize: 20,
             },
             ticks: {
@@ -541,19 +555,18 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     });
   };
 
-getKys(); //how to keep past input and also display new input?? have parameter edit in first function with default value?? want bars to be different heights
+var mykeys = getKys();
+var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
+var myvals = getValues();
+var dict = makeDictionary(mykeys, sample);
+var newdict = makeDictionary(mykeys, myvals);
 function newinputs() {
   document.getElementById('form1').style.display = 'block';
-  getNewValues(kys);
 }
-function getNewValues(kys) {
-    var mykeys = kys;
-    var w = window.location.search.replace(/[^\d.-]/g, ',').replace(/,+/g,',');
-    var newvals = w.substr(1, w.length-1).split(',');
-    makeDictionary(mykeys, newvals); 
-}
+
 document.getElementById("myb").addEventListener("click", newinputs);
 
+wow(dict, newdict);
 </script>
 </body>
 </html>
