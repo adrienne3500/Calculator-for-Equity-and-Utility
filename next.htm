@@ -15,8 +15,11 @@
 <div id = "main">
 <center><canvas id="myChart" width="1000" height="400"></canvas></center>
 <p id = "output"></p>
+<br>
 <p id = "verdict"></p>
-<center><button class = "switch_page" id="myb">Re-Calculate With New Inputs</button></center>
+<br>
+<center><button class = "switch_page" id="myb">Keep Default Values, Evaluate New Inputs</button></center>
+<center><button class = "switch_page" id="replaceb">Set Entered Values as Default, Evaluate New Inputs</button></center>
 <div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
   <!-- form for user of website tool to enter values to be used in calculations -->
   <form action="next.htm" id = "form1" style="display:none" method="GET">
@@ -127,7 +130,6 @@ function getValues(kys) {
     var mykeys = kys;
     var s = window.location.search.replace(/[^\d.-]/g, ',').replace(/,+/g,',');
     var vals = s.substr(1, s.length-1).split(','); 
-    alert(2);
     return vals;
 }
 
@@ -470,29 +472,33 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       newlist.push(hhtypes[i]["combined_cost_burden_after_benefits"]*100);
       i += 1;
     }
-    var i = 1;
-    var revenue = 0;
-    while (i <= 15) {
-      revenue += hhtypes[i]["elec_payment_by_type"] + hhtypes[i]["gas_payment_by_type"];
-      i += 1;
-    }
+    var revenue = getRevenue(hhtypes);
+
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = "The upper threshold for energy cost burden has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+    } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}.` + "<br><br>";
     } 
     if (revenue < myob["total_expense"]) {
-      document.getElementById("verdict").innerHTML += "The lower threshold for revenue has been surpassed. You may want to alter your entries for XXXXXXXXX.";
-    }
+      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to alter your entries for XXXXXXXXX` + "<br><br>"; 
+    } 
     if (revenue > myob["maximum_revenue"]) {
-    document.getElementById("verdict").innerHTML += "The upper threshold for revenue has been surpassed. You may want to alter your entries for XXXXXXXXX.";
+      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${myob["maximum_revenue"]}) has been surpassed. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+    } else {
+      document.getElementById("verdict").innerHTML += `The current revenue is ${revenue.toFixed(2)}.` + "<br><br>";
     }
+    
     if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){
       document.getElementById("verdict").innerHTML += "All constraints have been met!";
     }
+    // maybe implement function that calculates value needed when all other values stay constant, for multiple values
+    
     result13 = newlist;
+    alert(JSON.stringify(hhtypes));
     return result13;
   }
 
-function wow(original, modified) {
+function displayChart(original, modified) {
     var o = original;
     var m = modified;
     var ctx = document.getElementById("myChart");
@@ -503,14 +509,14 @@ function wow(original, modified) {
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
         datasets: [{
-            label: "Utility Cost Burden Before Modifications",
+            label: "Default Utility Cost Burden",
             fontSize: 20,
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
             data: [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8], o[9], o[10], o[11], o[12], o[13], o[14]]
           },
           {
-            label: "Utility Cost Burden After Modifications",
+            label: "Entry-Based Utility Cost Burden",
             backgroundColor: "rgb(160, 0, 160)",
             borderColor: "rgb(255, 99, 132)",
             data: [m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14]]
@@ -555,18 +561,36 @@ function wow(original, modified) {
     });
   };
 
+function getRevenue(mydict) {
+   var hhtypes = mydict;
+   var i = 1;
+   var rev = 0;
+   while (i <= 15) {
+      rev += hhtypes[i]["elec_payment_by_type"] + hhtypes[i]["gas_payment_by_type"];
+      i += 1;
+   }
+   return rev;
+}
 var mykeys = getKys();
+alert(mykeys);
 var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
+alert(myvals);
 var dict = makeDictionary(mykeys, sample);
 var newdict = makeDictionary(mykeys, myvals);
 function newinputs() {
   document.getElementById('form1').style.display = 'block';
 }
-
 document.getElementById("myb").addEventListener("click", newinputs);
 
-wow(dict, newdict);
+function replaceDefault() {
+  document.getElementById('form1').style.display = 'block';
+  var sample = myvals;
+  alert(sample);
+}
+document.getElementById("replaceb").addEventListener("click", replaceDefault);
+
+displayChart(dict, newdict);
 </script>
 </body>
 </html>
