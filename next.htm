@@ -6,7 +6,8 @@
 <meta name="description" content="Calculator for Equity and Utility">
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> //UPDATEEEEEEEEEEEEE
+// var temp = value, then value = variable entered?
 </head>
 <body style="background-color: rgb(0,0,70);">
 <br>
@@ -17,7 +18,6 @@
 <p id = "output"></p>
 <br>
 <p id = "verdict"></p>
-<br>
 <center><button class = "switch_page" id="myb">Keep Default Values, Evaluate New Inputs</button></center>
 <center><button class = "switch_page" id="replaceb">Set Entered Values as Default, Evaluate New Inputs</button></center>
 <div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
@@ -149,7 +149,6 @@ function makeDictionary(mykeys, vals) {
     for (var property in ob) {
         output += property + ': ' + ob[property]+'; ';
     }
-    alert(JSON.stringify(ob));
     var myresult = hhcategories(ob);
     return myresult;
 }
@@ -407,7 +406,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     var out = "";
     out += "Contents of first income category:" + "<br>";
     for (var i in hhtypes[1]) {
-        out += i + ': ' + hhtypes[1][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[1][i] + "<br><br>";
     }
     out += "<br>" + "Contents of second income category:" + "<br>";
     for (var i in hhtypes[2]) {
@@ -415,61 +414,73 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     out += "<br>" + "Contents of third income category:" + "<br>";
     for (var i in hhtypes[3]) {
-        out += i + ': ' + hhtypes[3][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[3][i] + "<br><br>";
     }
     out += "<br>" + "Contents of fourth income category:"+ "<br>";
     for (var i in hhtypes[4]) {
-        out += i + ': ' + hhtypes[4][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[4][i] + "<br><br>";
     }
     out += "<br>" + "Contents of fifth income category:"+ "<br>";
     for (var i in hhtypes[5]) {
-        out += i + ': ' + hhtypes[5][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[5][i] + "<br><br>";
     }
     out += "<br>" + "Contents of sixth income category:"+ "<br>";
     for (var i in hhtypes[6]) {
-        out += i + ': ' + hhtypes[6][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[6][i] + "<br><br>";
     }
     out += "<br>" + "Contents of seventh income category:"+ "<br>";
     for (var i in hhtypes[7]) {
-        out += i + ': ' + hhtypes[7][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[7][i] + "<br><br>";
     }
     out += "<br>" + "Contents of eighth income category:"+ "<br>";
     for (var i in hhtypes[8]) {
-        out += i + ': ' + hhtypes[8][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[8][i] + "<br><br>";
     }
     out += "<br>" + "Contents of ninth income category:"+ "<br>";
     for (var i in hhtypes[9]) {
-        out += i + ': ' + hhtypes[9][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[9][i] + "<br><br>";
     }
     out += "<br>" + "Contents of tenth income category:"+ "<br>";
     for (var i in hhtypes[10]) {
-        out += i + ': ' + hhtypes[10][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[10][i] + "<br><br>";
     }
     out += "<br>" + "Contents of eleventh income category:"+ "<br>";
     for (var i in hhtypes[11]) {
-        out += i + ': ' + hhtypes[11][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[11][i] + "<br><br>";
     }
     out += "<br>" + "Contents of twelfth income category:"+ "<br>";
     for (var i in hhtypes[12]) {
-        out += i + ': ' + hhtypes[12][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[12][i] + "<br><br>";
     }
     out += "<br>" + "Contents of thirteenth income category:"+ "<br>";
     for (var i in hhtypes[13]) {
-        out += i + ': ' + hhtypes[13][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[13][i] + "<br><br>";
     }
     out += "<br>" + "Contents of fourteenth income category:"+ "<br>";
     for (var i in hhtypes[14]) {
-        out += i + ': ' + hhtypes[14][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[14][i] + "<br><br>";
     }
     out += "<br>" + "Contents of fifteenth income category:"+ "<br>";
     for (var i in hhtypes[15]) {
-        out += i + ': ' + hhtypes[15][i] + "<br>" + "<br>";
+        out += i + ': ' + hhtypes[15][i] + "<br><br>";
     }
     document.getElementById("output").innerHTML = out;
-    var newlist = [];
+    var gas_list = [];
     var i = 1;
     while (i <= 15) {
-      newlist.push(hhtypes[i]["combined_cost_burden_after_benefits"]*100);
+      gas_list.push(hhtypes[i]["gas_burden_before_benefits"]*100);
+      i += 1;
+    }
+    var elec_list = [];
+    var i = 1;
+    while (i <= 15) {
+      elec_list.push(hhtypes[i]["elec_burden_before_benefits"]*100);
+      i += 1;
+    }
+    var combined_list = [];
+    var i = 1;
+    while (i <= 15) {
+      combined_list.push(hhtypes[i]["combined_cost_burden_after_benefits"]*100);
       i += 1;
     }
     var revenue = getRevenue(hhtypes);
@@ -493,14 +504,17 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     // maybe implement function that calculates value needed when all other values stay constant, for multiple values
     
-    result13 = newlist;
-    alert(JSON.stringify(hhtypes));
+    var result13 = [gas_list, elec_list, combined_list];
     return result13;
   }
 
-function displayChart(original, modified) {
-    var o = original;
-    var m = modified;
+function displayChart(gas_before_ben, elec_before_ben, combined_w_ben) {
+    var gas = gas_before_ben;
+    alert(JSON.stringify(gas));
+    var elec = elec_before_ben;
+    alert(JSON.stringify(elec));
+    var comb = combined_w_ben;
+    alert(JSON.stringify(comb));
     var ctx = document.getElementById("myChart");
     var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
@@ -509,24 +523,38 @@ function displayChart(original, modified) {
       data: {
         labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15"],
         datasets: [{
-            label: "Default Utility Cost Burden",
+            label: "Default Gas Cost Burden",
             fontSize: 20,
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
-            data: [o[0], o[1], o[2], o[3], o[4], o[5], o[6], o[7], o[8], o[9], o[10], o[11], o[12], o[13], o[14]]
+            stack: "Stack 0",
+            data: [gas[0], gas[1], gas[2], gas[3], gas[4], gas[5], gas[6], gas[7], gas[8], gas[9], gas[10], gas[11], gas[12], gas[13], gas[14]]
           },
           {
-            label: "Entry-Based Utility Cost Burden",
-            backgroundColor: "rgb(160, 0, 160)",
+            label: "Default Electricity Cost Burden",
+            backgroundColor: "rgb(50, 40, 200)",
             borderColor: "rgb(255, 99, 132)",
-            data: [m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14]]
-          } 
+            stack: "Stack 0",
+            data: [elec[0], elec[1], elec[2], elec[3], elec[4], elec[5], elec[6], elec[7], elec[8], elec[9], elec[10], elec[11], elec[12], elec[13], elec[14]]
+          },
+          {
+            label: "Combined Cost Burden After Benefits",
+            backgroundColor: "rgb(160, 0, 255)",
+            borderColor: "rgb(255, 99, 132)",
+            stack: "Stack 1",
+            data: [comb[0], comb[1], comb[2], comb[3], comb[4], comb[5], comb[6], comb[7], comb[8], comb[9], comb[10], comb[11], comb[12], comb[13], comb[14]]
+          }
         ]
       },
       options: {
         barValueSpacing: 50,
         responsive: true,
         maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: "Comparison of Utility Cost Burden Before vs. After Modifications",
+          fontSize: 20,
+        },
         legend: {
           display: true,
           labels: {
@@ -535,6 +563,7 @@ function displayChart(original, modified) {
         },
         scales: {
           xAxes: [{
+            stacked: true,
             scaleLabel: {
               display: true,
               labelString: 'Household Category',
@@ -546,9 +575,10 @@ function displayChart(original, modified) {
             }
           }],          
           yAxes: [{
+            stacked: true,
             scaleLabel: {
               display: true,
-              labelString: 'Utility Cost Burden' ,
+              labelString: 'Utility Cost Burden',
               fontSize: 20,
             },
             ticks: {
@@ -572,10 +602,8 @@ function getRevenue(mydict) {
    return rev;
 }
 var mykeys = getKys();
-alert(mykeys);
 var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
-alert(myvals);
 var dict = makeDictionary(mykeys, sample);
 var newdict = makeDictionary(mykeys, myvals);
 function newinputs() {
@@ -586,11 +614,11 @@ document.getElementById("myb").addEventListener("click", newinputs);
 function replaceDefault() {
   document.getElementById('form1').style.display = 'block';
   var sample = myvals;
-  alert(sample);
 }
 document.getElementById("replaceb").addEventListener("click", replaceDefault);
 
-displayChart(dict, newdict);
+displayChart(dict[0], dict[1], newdict[2]); 
+
 </script>
 </body>
 </html>
