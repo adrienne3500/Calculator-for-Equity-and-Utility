@@ -18,9 +18,11 @@
 <div id = "main">
 <center><canvas id="myChart" width="1000" height="400"></canvas></center>
 <center><canvas id="revChart" width="1000" height="400"></canvas></center>
+<p id = "verdict" style = "font-size: 1.4em"></p>
+<br>
+<br>
 <p id = "output"></p>
 <br>
-<p id = "verdict" style = "font-size: 1.3em"></p>
 <center><button class = "switch_page" id="myb">Keep Default Values, Evaluate New Inputs</button></center>
 <center><button class = "switch_page" id="replaceb">Set Entered Values as Default, Evaluate New Inputs</button></center>
 <div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
@@ -436,15 +438,15 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     var revenue = getRevenue(hhtypes);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(3)}, the energy cost burden for the second household category is ${hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(3)}, and the energy cost burden for the third household category is ${hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(3)}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the second household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the third household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}.` + "<br><br>";
     } 
     if (revenue < myob["total_expense"]) {
-      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to alter your entries for XXXXXXXXX` + "<br><br>"; 
+      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
     } 
     if (revenue > myob["maximum_revenue"]) {
-      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${comma_thousands(myob["maximum_revenue"])}) has been surpassed. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${comma_thousands(myob["maximum_revenue"])}) has been surpassed. You may want to focus on lowering your entered charges.` + "<br><br>";
     } else {
       document.getElementById("verdict").innerHTML += `The current revenue is ${revenue.toFixed(2)}.` + "<br><br>";
     }
