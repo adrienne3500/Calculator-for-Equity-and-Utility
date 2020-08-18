@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <meta charset="UTF-8"/>
@@ -438,7 +437,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     var revenue = getRevenue(hhtypes);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(2))/0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
       document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}.` + "<br><br>";
     } 
