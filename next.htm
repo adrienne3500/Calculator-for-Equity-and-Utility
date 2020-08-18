@@ -114,7 +114,7 @@
 <title>Chart.js demo</title>
 <script language="JavaScript">
 
-// XXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXXXXXXXXXX inform users of severity of problem. xxxxxxxx save scenarios xxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing xxxxxx
+// XXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXX inform users of severity of problem. xxxxxxxx save scenarios xxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing xxxxxx
 
 
 // gets keys (for which values were requested in the form) from text in window search bar
@@ -436,9 +436,9 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     var revenue = getRevenue(hhtypes);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(3)}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(3)}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(3)}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(3)}, the energy cost burden for the second household category is ${hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(3)}, and the energy cost burden for the third household category is ${hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(3)}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the second household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the third household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}.` + "<br><br>";
     } 
     if (revenue < myob["total_expense"]) {
       document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to alter your entries for XXXXXXXXX` + "<br><br>"; 
