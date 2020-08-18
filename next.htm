@@ -20,7 +20,7 @@
 <center><canvas id="revChart" width="1000" height="400"></canvas></center>
 <p id = "output"></p>
 <br>
-<p id = "verdict"></p>
+<p id = "verdict" style = "font-size: 1.3em"></p>
 <center><button class = "switch_page" id="myb">Keep Default Values, Evaluate New Inputs</button></center>
 <center><button class = "switch_page" id="replaceb">Set Entered Values as Default, Evaluate New Inputs</button></center>
 <div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
@@ -114,7 +114,7 @@
 <title>Chart.js demo</title>
 <script language="JavaScript">
 
-// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxxxxxxxxxxxxxxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXXXXXXXXXX inform users of severity of problem. xxxxxxxxxxxxxxxxxxxxxxxxxx save scenarios xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing xxxxxxxxxxxxxxx
+// XXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXXXXXXXXXX inform users of severity of problem. xxxxxxxx save scenarios xxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing xxxxxx
 
 
 // gets keys (for which values were requested in the form) from text in window search bar
@@ -411,58 +411,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     for (var i in hhtypes[1]) {
         out += i + ': ' + hhtypes[1][i] + "<br><br>";
     }
-    out += "<br>" + "Contents of second income category:" + "<br>";
-    for (var i in hhtypes[2]) {
-        out += i + ': ' + hhtypes[2][i] + "<br>";
-    }
-    out += "<br>" + "Contents of third income category:" + "<br>";
-    for (var i in hhtypes[3]) {
-        out += i + ': ' + hhtypes[3][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of fourth income category:"+ "<br>";
-    for (var i in hhtypes[4]) {
-        out += i + ': ' + hhtypes[4][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of fifth income category:"+ "<br>";
-    for (var i in hhtypes[5]) {
-        out += i + ': ' + hhtypes[5][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of sixth income category:"+ "<br>";
-    for (var i in hhtypes[6]) {
-        out += i + ': ' + hhtypes[6][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of seventh income category:"+ "<br>";
-    for (var i in hhtypes[7]) {
-        out += i + ': ' + hhtypes[7][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of eighth income category:"+ "<br>";
-    for (var i in hhtypes[8]) {
-        out += i + ': ' + hhtypes[8][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of ninth income category:"+ "<br>";
-    for (var i in hhtypes[9]) {
-        out += i + ': ' + hhtypes[9][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of tenth income category:"+ "<br>";
-    for (var i in hhtypes[10]) {
-        out += i + ': ' + hhtypes[10][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of eleventh income category:"+ "<br>";
-    for (var i in hhtypes[11]) {
-        out += i + ': ' + hhtypes[11][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of twelfth income category:"+ "<br>";
-    for (var i in hhtypes[12]) {
-        out += i + ': ' + hhtypes[12][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of thirteenth income category:"+ "<br>";
-    for (var i in hhtypes[13]) {
-        out += i + ': ' + hhtypes[13][i] + "<br><br>";
-    }
-    out += "<br>" + "Contents of fourteenth income category:"+ "<br>";
-    for (var i in hhtypes[14]) {
-        out += i + ': ' + hhtypes[14][i] + "<br><br>";
-    }
     out += "<br>" + "Contents of fifteenth income category:"+ "<br>";
     for (var i in hhtypes[15]) {
         out += i + ': ' + hhtypes[15][i] + "<br><br>";
@@ -488,7 +436,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     var revenue = getRevenue(hhtypes);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(3)}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(3)}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(3)}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
       document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}.` + "<br><br>";
     } 
@@ -496,7 +444,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to alter your entries for XXXXXXXXX` + "<br><br>"; 
     } 
     if (revenue > myob["maximum_revenue"]) {
-      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${myob["maximum_revenue"]}) has been surpassed. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${comma_thousands(myob["maximum_revenue"])}) has been surpassed. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else {
       document.getElementById("verdict").innerHTML += `The current revenue is ${revenue.toFixed(2)}.` + "<br><br>";
     }
@@ -516,6 +464,11 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
     var comb = combined_w_ben;
     var rev_i = revtypes_initial.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
     var rev_f = revtypes_final.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
+    var gas_round = gas.map(i => parseFloat(i).toFixed(3));
+    var elec_round = elec.map(i => parseFloat(i).toFixed(3));
+    var comb_round = comb.map(i => parseFloat(i).toFixed(3));
+    var rev_i_round = rev_i.map(i => (parseFloat(i)/1000).toFixed(2));
+    var rev_f_round = rev_f.map(i => (parseFloat(i)/1000).toFixed(2));
     var ctx = document.getElementById("myChart");
     var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
@@ -529,21 +482,21 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
-            data: [gas[0], gas[1], gas[2], gas[3], gas[4], gas[5], gas[6], gas[7], gas[8], gas[9], gas[10], gas[11], gas[12], gas[13], gas[14]]
+            data: [gas_round[0], gas_round[1], gas_round[2], gas_round[3], gas_round[4], gas_round[5], gas_round[6], gas_round[7], gas_round[8], gas_round[9], gas_round[10], gas_round[11], gas_round[12], gas_round[13], gas_round[14]]
           },
           {
             label: "Default Electricity Cost Burden",
             backgroundColor: "rgb(50, 40, 200)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
-            data: [elec[0], elec[1], elec[2], elec[3], elec[4], elec[5], elec[6], elec[7], elec[8], elec[9], elec[10], elec[11], elec[12], elec[13], elec[14]]
+            data: [elec_round[0], elec_round[1], elec_round[2], elec_round[3], elec_round[4], elec_round[5], elec_round[6], elec_round[7], elec_round[8], elec_round[9], elec_round[10], elec_round[11], elec_round[12], elec_round[13], elec_round[14]]
           },
           {
             label: "Combined Cost Burden After Benefits",
             backgroundColor: "rgb(160, 0, 255)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 1",
-            data: [comb[0], comb[1], comb[2], comb[3], comb[4], comb[5], comb[6], comb[7], comb[8], comb[9], comb[10], comb[11], comb[12], comb[13], comb[14]]
+            data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
           }
         ]
       },
@@ -553,7 +506,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
         maintainAspectRatio: false,
         title: {
           display: true,
-          text: "Utility Cost Burden Before vs. After Modifications",
+          text: "Utility Cost Burden (% of Taxed Annual Household Income Paid Towards Utilities) Before vs. After Modifications",
           fontSize: 25,
         },
         legend: {
@@ -611,14 +564,14 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
-            data: [rev_i[1], rev_f[1]]
+            data: [parseFloat(rev_i_round[1]), parseFloat(rev_f_round[1])]
           },
           {
             label: "Electricity Revenue",
             backgroundColor: "rgb(50, 40, 200)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
-            data: [rev_i[0], rev_f[0]]
+            data: [parseFloat(rev_i_round[0]), parseFloat(rev_f_round[0])]
           },
         ]
       },
@@ -650,7 +603,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stacked: true,
             scaleLabel: {
               display: true,
-              labelString: 'Time With Respect to Application of Modifications',
+              labelString: "Time With Respect to Application of Modifications",
               fontSize: 20,
             },
             ticks: {
@@ -662,7 +615,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stacked: true,
             scaleLabel: {
               display: true,
-              labelString: 'Revenue',
+              labelString: 'Revenue (Thousands of Dollars)',
               fontSize: 20,
             },
             ticks: {
@@ -687,6 +640,10 @@ function getRevenue(mydict) {
    }
    var revtypes = [elec_rev, gas_rev];
    return JSON.stringify(revtypes)
+}
+
+function comma_thousands(n) {
+    return n.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
 }
 
 function newInputs(chart, label, data) {
