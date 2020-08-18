@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-us">
 <meta charset="UTF-8"/>
@@ -6,15 +7,17 @@
 <meta name="description" content="Calculator for Equity and Utility">
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
-<script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> //UPDATEEEEEEEEEEEEE
-// var temp = value, then value = variable entered?
+<script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> //UPDATEEEEEEEEEEEEE var temp = value, then value = variable entered?
 </head>
 <body style="background-color: rgb(0,0,70);">
 <br>
 <br>
 <h1><center>Calculated Results</center></h1>
+<br>
+<br>
 <div id = "main">
 <center><canvas id="myChart" width="1000" height="400"></canvas></center>
+<center><canvas id="revChart" width="1000" height="400"></canvas></center>
 <p id = "output"></p>
 <br>
 <p id = "verdict"></p>
@@ -104,7 +107,7 @@
     <br>
     <br>
     <br>
-    <center><button class="switch_page">Press Enter Key or This Button to View Results</button></center> 
+    <center><button class="switch_page" onclick = "newInputs(burdenchart, "New Inputs", )">Press Enter Key or This Button to View Results</button></center> 
   </form>
 </div>
 <meta charset="utf-8" />
@@ -484,7 +487,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       i += 1;
     }
     var revenue = getRevenue(hhtypes);
-
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
       document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been surpassed; the energy cost burden for the first household category is ${hhtypes[1]["combined_cost_burden_after_benefits"]}, the energy cost burden for the first household category is ${hhtypes[2]["combined_cost_burden_after_benefits"]}, and the energy cost burden for the first household category is ${hhtypes[3]["combined_cost_burden_after_benefits"]}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
     } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
@@ -504,17 +506,16 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     // maybe implement function that calculates value needed when all other values stay constant, for multiple values
     
-    var result13 = [gas_list, elec_list, combined_list];
+    var result13 = [gas_list, elec_list, combined_list, revenue];
     return result13;
   }
 
-function displayChart(gas_before_ben, elec_before_ben, combined_w_ben) {
+function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_initial, revtypes_final) {
     var gas = gas_before_ben;
-    alert(JSON.stringify(gas));
     var elec = elec_before_ben;
-    alert(JSON.stringify(elec));
     var comb = combined_w_ben;
-    alert(JSON.stringify(comb));
+    var rev_i = revtypes_initial.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
+    var rev_f = revtypes_final.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
     var ctx = document.getElementById("myChart");
     var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
@@ -552,13 +553,21 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben) {
         maintainAspectRatio: false,
         title: {
           display: true,
-          text: "Comparison of Utility Cost Burden Before vs. After Modifications",
-          fontSize: 20,
+          text: "Utility Cost Burden Before vs. After Modifications",
+          fontSize: 25,
         },
         legend: {
           display: true,
           labels: {
-            fontSize: 17
+            fontSize: 20
+          }
+        },
+        layout: {
+          padding: {
+            left: 30,
+            right: 30,
+            top: 50,
+            bottom: 30
           }
         },
         scales: {
@@ -589,18 +598,105 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben) {
         }
       }
     });
+    var myrev = document.getElementById("revChart");
+    var revenuechart = new Chart(myrev, {
+      // The type of chart we want to create
+      type: 'bar',
+      // The data for our dataset
+      data: {
+        labels: ["Before", "After"],
+        datasets: [{
+            label: "Gas Revenue",
+            fontSize: 20,
+            backgroundColor: "rgb(50, 40, 120)",
+            borderColor: "rgb(255, 99, 132)",
+            stack: "Stack 0",
+            data: [rev_i[1], rev_f[1]]
+          },
+          {
+            label: "Electricity Revenue",
+            backgroundColor: "rgb(50, 40, 200)",
+            borderColor: "rgb(255, 99, 132)",
+            stack: "Stack 0",
+            data: [rev_i[0], rev_f[0]]
+          },
+        ]
+      },
+      options: {
+        barValueSpacing: 50,
+        responsive: true,
+        maintainAspectRatio: false,
+        title: {
+          display: true,
+          text: "Revenue Before vs. After Modifications",
+          fontSize: 25,
+        },
+        legend: {
+          display: true,
+          labels: {
+            fontSize: 20
+          }
+        },
+        layout: {
+          padding: {
+            left: 30,
+            right: 30,
+            top: 50,
+            bottom: 30
+          }
+        },
+        scales: {
+          xAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Time With Respect to Application of Modifications',
+              fontSize: 20,
+            },
+            ticks: {
+              autoSkip: false,
+              fontSize: 20,
+            }
+          }],          
+          yAxes: [{
+            stacked: true,
+            scaleLabel: {
+              display: true,
+              labelString: 'Revenue',
+              fontSize: 20,
+            },
+            ticks: {
+              autoSkip: false,
+              fontSize: 20,
+            }
+          }]
+        }
+      }
+    });
   };
 
 function getRevenue(mydict) {
    var hhtypes = mydict;
    var i = 1;
-   var rev = 0;
+   var elec_rev = 0;
+   var gas_rev = 0;
    while (i <= 15) {
-      rev += hhtypes[i]["elec_payment_by_type"] + hhtypes[i]["gas_payment_by_type"];
+      elec_rev += hhtypes[i]["elec_payment_by_type"];
+      gas_rev += hhtypes[i]["gas_payment_by_type"];
       i += 1;
    }
-   return rev;
+   var revtypes = [elec_rev, gas_rev];
+   return JSON.stringify(revtypes)
 }
+
+function newInputs(chart, label, data) {
+  chart.data.labels.push(label);
+  chart.data.datasets.forEach((dataset) => {
+    dataset.data.push(data);
+  });
+  chart.update();  
+}
+
 var mykeys = getKys();
 var sample = [3184496, 0.62, 0.20, 837631, 22.22, 0.96, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
@@ -616,8 +712,7 @@ function replaceDefault() {
   var sample = myvals;
 }
 document.getElementById("replaceb").addEventListener("click", replaceDefault);
-
-displayChart(dict[0], dict[1], newdict[2]); 
+displayChart(dict[0], dict[1], newdict[2], dict[3], newdict[3]); 
 
 </script>
 </body>
