@@ -22,6 +22,47 @@
 <br>
 <p id = "output"></p>
 <br>
+<table class="center" id="mytable">
+  <tr>
+    <th>Income</th>
+    <th>Low Consumption</th> 
+    <th>Medium Consumption</th> 
+    <th>High Consumption</th> 
+  </tr>
+  <tr>
+    <td>First Quintile (Lowest) </td>
+    <td>Category One</td>
+    <td>Category Two</td>
+    <td>Category Three</td>
+  </tr>
+  <tr>
+  <td>Second Quintile</td>
+  <td>Category Four</td>
+  <td>Category Five</td>
+  <td>Category Six</td>
+  </tr>
+  <tr>
+  <td>Third Quintile</td>
+  <td>Category Seven</td>
+  <td>Category Eight</td>
+  <td>Category Nine</td>
+  </tr>
+  <tr>
+  <td>Fourth Quintile</td>
+  <td>Category Ten</td>
+  <td>Category Eleven</td>
+  <td>Category Twelve</td>
+  </tr>
+  <tr>
+  <td>Fifth Quintile (Highest)</td>
+  <td>Category Thirteen</td>
+  <td>Category Fourteen</td>
+  <td>Category Fifteen</td>
+  </tr>
+</table>
+<br>
+<br>
+<br>
 <center><button class = "switch_page" id="myb">Keep Default Values, Evaluate New Inputs</button></center>
 <center><button class = "switch_page" id="replaceb">Set Entered Values as Default, Evaluate New Inputs</button></center>
 <div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
@@ -67,10 +108,10 @@
     <label for="total_expense" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide the estimated total expense associated with providing electricity/gas to the households in question.</center></label>
     <input type="number" step = "0.01" id="total_expense" placeholder=2809850666.67 name="total_expense">
     <br>
-    <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category.XXXXXXXXXXXXXXXXXXXXXX</center></label>
+    <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
     <input type="number" step = "0.001" id="elec_usage_ratio" placeholder=1.163 name="elec_usage_ratio">
     <br>
-    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high gas usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category.XXXXXXXXXXXXXXXXXXXXXX</center></label>
+    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.2em"><center>Please provide a number for defining the difference between low, medium, and high gas usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
     <input type="number" step = "0.001" id="gas_usage_ratio" placeholder=1.2 name="gas_usage_ratio">
     <br>
     <br>
@@ -412,10 +453,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     for (var i in hhtypes[1]) {
         out += i + ': ' + hhtypes[1][i] + "<br><br>";
     }
-    out += "<br>" + "Contents of fifteenth income category:"+ "<br>";
-    for (var i in hhtypes[15]) {
-        out += i + ': ' + hhtypes[15][i] + "<br><br>";
-    }
     document.getElementById("output").innerHTML = out;
     var gas_list = [];
     var i = 1;
@@ -437,17 +474,15 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     }
     var revenue = getRevenue(hhtypes);
     if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(2))/0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
-    } else if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The upper threshold for energy cost burden has been met; the energy cost burden for the first household category is ${(hhtypes[1]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, the energy cost burden for the second household category is ${(hhtypes[2]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}, and the energy cost burden for the third household category is ${(hhtypes[3]["combined_cost_burden_after_benefits"].toFixed(5)*100)+'%'}.` + "<br><br>";
-    } 
+      document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100) / 100) /0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${((Math.round(hhtypes[1]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, the energy cost burden for the second household category is ${((Math.round(hhtypes[2]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, and the energy cost burden for the third household category is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}. You may want to alter your entries for XXXXXXXXX.` + "<br><br>";
+    }
     if (revenue < myob["total_expense"]) {
-      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${revenue.toFixed(2)}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
+      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${myob["total_expense"]}) has been surpassed; the current revenue is ${Math.round(revenue*100)/100}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
     } 
     if (revenue > myob["maximum_revenue"]) {
-      document.getElementById("verdict").innerHTML += `The upper threshold for revenue (${comma_thousands(myob["maximum_revenue"])}) has been surpassed. You may want to focus on lowering your entered charges.` + "<br><br>";
+      document.getElementById("verdict").innerHTML += `The upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}) has been surpassed. You may want to focus on lowering your entered charges.` + "<br><br>";
     } else {
-      document.getElementById("verdict").innerHTML += `The current revenue is ${revenue.toFixed(2)}.` + "<br><br>";
+      document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round(revenue*100)/100}.` + "<br><br>";
     }
     
     if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){
@@ -465,11 +500,11 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
     var comb = combined_w_ben;
     var rev_i = revtypes_initial.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
     var rev_f = revtypes_final.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
-    var gas_round = gas.map(i => parseFloat(i).toFixed(3));
-    var elec_round = elec.map(i => parseFloat(i).toFixed(3));
-    var comb_round = comb.map(i => parseFloat(i).toFixed(3));
-    var rev_i_round = rev_i.map(i => (parseFloat(i)/1000).toFixed(2));
-    var rev_f_round = rev_f.map(i => (parseFloat(i)/1000).toFixed(2));
+    var gas_round = gas.map(i => Math.round(parseFloat(i)*1000)/1000);
+    var elec_round = elec.map(i => Math.round(parseFloat(i)*1000)/1000);
+    var comb_round = comb.map(i => Math.round(parseFloat(i)*1000)/1000);
+    var rev_i_round = rev_i.map(i => Math.round(parseFloat(i)*1000)/1000);
+    var rev_f_round = rev_f.map(i => Math.round(parseFloat(i)*1000)/1000);
     var ctx = document.getElementById("myChart");
     var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
@@ -588,7 +623,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
         legend: {
           display: true,
           labels: {
-            fontSize: 20
+            fontSize: 20,
           }
         },
         layout: {
@@ -596,7 +631,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             left: 30,
             right: 30,
             top: 50,
-            bottom: 30
+            bottom: 30,
           }
         },
         scales: {
