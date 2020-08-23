@@ -67,8 +67,8 @@
 <br>
 <br>
 <div id = "main">
-<center><canvas id="myChart" width="1000" height="400"></canvas></center>
-<center><canvas id="revChart" width="1000" height="400"></canvas></center>
+<center><canvas id="myChart" width="1000" height="700"></canvas></center>
+<center><canvas id="revChart" width="10" height="600"></canvas></center>
 <p id = "verdict" style = "font-size: 1.4em"></p>
 <br>
 <br>
@@ -297,13 +297,14 @@ function ann_elec_consumption(ob, hhs) {
 function ann_elec_payment_per_hhtype(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
+    var elec_households = myob["elec_households"];
     var var_elec_charge = myob["var_elec_charge"];
     var fix_elec_charge = myob["fix_elec_charge"];
     var i = 1;
     while (i<=13) {
-      hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
-      hhtypes[i+1]["elec_payment_by_type"] = hhtypes[i+1]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
-      hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + 12 * fix_elec_charge;
+      hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge;
+      hhtypes[i+1]["elec_payment_by_type"] = hhtypes[i+1]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i+1]["distribution"] * 12 * fix_elec_charge;
+      hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i+2]["distribution"] * 12 * fix_elec_charge;
       i++;
     } 
     var result4 = ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
@@ -385,13 +386,14 @@ function ann_gas_consumption(ob, hhs) {
 function ann_gas_payment_per_hhtype(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
+    var gas_households = myob["gas_households"];
     var var_gas_charge = myob["var_gas_charge"];
     var fix_gas_charge = myob["fix_gas_charge"];
     var i = 1;
     while (i<=13) {
-      hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
-      hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
-      hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + 12 * fix_gas_charge);
+      hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i]["distribution"] * 12 * fix_gas_charge);
+      hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+1]["distribution"] * 12 * fix_gas_charge);
+      hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge);
       i++;
     } 
     var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
@@ -463,12 +465,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       hhtypes[i+2]["combined_cost_burden_after_benefits"] = (hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i+2]["income"]);
       i++;
     } 
-    var out = "";
-    out += "Contents of first income category:" + "<br>";
-    for (var i in hhtypes[1]) {
-        out += i + ': ' + hhtypes[1][i] + "<br><br>";
-    }
-    document.getElementById("output").innerHTML = out;
     var gas_list = [];
     var i = 1;
     while (i <= 15) {
@@ -495,7 +491,7 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${Math.round(myob["total_expense"]*100)/100}) has not been met; the current revenue is ${Math.round(revenue*100)/100}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
     } 
     if (revenue > myob["maximum_revenue"]) {
-      document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round(revenue*100)/100}, which is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}). You may want to focus on lowering your entered charges.` + "<br><br>";
+      document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round((revenue[0] + revenue[1])*100)/100}, which is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}). You may want to focus on lowering your entered charges.` + "<br><br>";
     } else {
       document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round(revenue*100)/100}.` + "<br><br>";
     }
@@ -513,8 +509,8 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
     var gas = gas_before_ben;
     var elec = elec_before_ben;
     var comb = combined_w_ben;
-    var rev_i = revtypes_initial.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
-    var rev_f = revtypes_final.substr(1, revtypes_initial.length-2).replace(/["]/g, ",").replace(/,+/g,',').split(",");
+    var rev_i = revtypes_initial;
+    var rev_f = revtypes_final;
     var gas_round = gas.map(i => Math.round(parseFloat(i)*1000)/1000);
     var elec_round = elec.map(i => Math.round(parseFloat(i)*1000)/1000);
     var comb_round = comb.map(i => Math.round(parseFloat(i)*1000)/1000);
@@ -624,10 +620,17 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stack: "Stack 0",
             data: [parseFloat(rev_i_round[0]), parseFloat(rev_f_round[0])]
           },
+          {
+            label: "Total Revenue",
+            backgroundColor: "rgb(110, 0, 255)",
+            borderColor: "rgb(255, 99, 132)",
+            stack: "Stack 1",
+            data: [parseFloat(rev_i_round[0]) + parseFloat(rev_i_round[1]), parseFloat(rev_f_round[0]) + parseFloat(rev_f_round[1])]
+          },
         ]
       },
       options: {
-        barValueSpacing: 50,
+        barValueSpacing: 700,
         responsive: true,
         maintainAspectRatio: false,
         title: {
@@ -666,17 +669,19 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stacked: true,
             scaleLabel: {
               display: true,
-              labelString: 'Revenue (Thousands of Dollars)',
+              labelString: 'Revenue (Dollars)',
               fontSize: 20,
             },
             ticks: {
               autoSkip: false,
               fontSize: 20,
+              stepSize: 500000000
             }
           }]
         }
       }
     });
+    return rev_f;
   };
 
 function getRevenue(mydict) {
@@ -690,8 +695,8 @@ function getRevenue(mydict) {
       i += 1;
    }
    var revtypes = [elec_rev, gas_rev];
-   alert(JSON.stringify(revtypes));
-   return JSON.stringify(revtypes)
+   alert(1);
+   return revtypes;
 }
 
 function comma_thousands(n) {
@@ -705,6 +710,11 @@ function newData(chart, label, data) {
   });
   chart.update();  
 }
+
+function revenueVerdict(final_revenue) {
+  document.getElementById("verdict").innerHTML += `The current revenue is $${Math.round(final_revenue*100)/100}.`;
+}
+
 
 var mykeys = getKys();
 var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
@@ -721,7 +731,11 @@ function replaceDefault() {
   var sample = myvals; //////////XXXXXXXXXXXXXXX
 }
 document.getElementById("replaceb").addEventListener("click", replaceDefault);
-displayChart(dict[0], dict[1], newdict[2], dict[3], newdict[3]); 
+var check = displayChart(dict[0], dict[1], newdict[2], dict[3], newdict[3]); 
+var revenuesum = parseFloat(check[0]) + parseFloat(check[1]);
+revenueVerdict(revenuesum);
+alert(1);
+alert(myob);
 
 </script>
 </body>
