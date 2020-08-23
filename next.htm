@@ -484,24 +484,8 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       i += 1;
     }
     var revenue = getRevenue(hhtypes);
-    if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-      document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100) / 100) /0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${((Math.round(hhtypes[1]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, the energy cost burden for the second household category is ${((Math.round(hhtypes[2]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, and the energy cost burden for the third household category is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}. You may want to increase benefits or reduce charges.` + "<br><br>";
-    }
-    if (revenue < myob["total_expense"]) {
-      document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${Math.round(myob["total_expense"]*100)/100}) has not been met; the current revenue is ${Math.round(revenue*100)/100}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
-    } 
-    if (revenue > myob["maximum_revenue"]) {
-      document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round((revenue[0] + revenue[1])*100)/100}, which is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}). You may want to focus on lowering your entered charges.` + "<br><br>";
-    } else {
-      document.getElementById("verdict").innerHTML += `The current revenue is ${Math.round(revenue*100)/100}.` + "<br><br>";
-    }
-    
-    if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){
-      document.getElementById("verdict").innerHTML += "All constraints have been met!";
-    }
-    // maybe implement function that calculates value needed when all other values stay constant, for multiple values
-    
-    var result13 = [gas_list, elec_list, combined_list, revenue];
+
+    var result13 = [gas_list, elec_list, combined_list, revenue, myob, hhtypes];
     return result13;
   }
 
@@ -695,7 +679,6 @@ function getRevenue(mydict) {
       i += 1;
    }
    var revtypes = [elec_rev, gas_rev];
-   alert(1);
    return revtypes;
 }
 
@@ -711,8 +694,24 @@ function newData(chart, label, data) {
   chart.update();  
 }
 
-function revenueVerdict(final_revenue) {
-  document.getElementById("verdict").innerHTML += `The current revenue is $${Math.round(final_revenue*100)/100}.`;
+function calcVerdict(final_revenue, ob, hhs) {
+  var revenue = final_revenue;
+  var myob = ob;
+  var hhtypes = hhs;
+  if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
+    document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100) / 100) /0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${((Math.round(hhtypes[1]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, the energy cost burden for the second household category is ${((Math.round(hhtypes[2]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, and the energy cost burden for the third household category is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}. You may want to increase benefits or reduce charges.` + "<br><br>";
+  }
+  // maybe implement function that calculates value needed when all other values stay constant, for multiple values
+  if (revenue < myob["total_expense"]) {
+    document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${Math.round(myob["total_expense"]*100)/100}) has not been met; the current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
+  } else if (revenue > myob["maximum_revenue"]) {
+    document.getElementById("verdict").innerHTML += `The current revenue ($${comma_thousands(Math.round(final_revenue*100)/100)}) is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}). You may want to focus on lowering your entered charges.` + "<br><br>";
+  } else {
+    document.getElementById("verdict").innerHTML += `The current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)}.`;
+  }
+  if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){ 
+    document.getElementById("verdict").innerHTML += "All constraints have been met!";
+  }
 }
 
 
@@ -733,10 +732,7 @@ function replaceDefault() {
 document.getElementById("replaceb").addEventListener("click", replaceDefault);
 var check = displayChart(dict[0], dict[1], newdict[2], dict[3], newdict[3]); 
 var revenuesum = parseFloat(check[0]) + parseFloat(check[1]);
-revenueVerdict(revenuesum);
-alert(1);
-alert(myob);
-
+calcVerdict(revenuesum, newdict[4], newdict[5]);
 </script>
 </body>
 </html>
