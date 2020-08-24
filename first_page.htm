@@ -4,11 +4,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="author" content="Adrienne Cheung">
 <meta name="description" content="Calculator for Equity and Utility">
+<title>Equity and Utility Form</title>
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 </head>
 <body style="background-color: rgb(0,0,70)">
-<div>
+<div id="options_bar">
 <center>
 <button class = "link" onclick="document.location = 'https://statisticalatlas.com/place/New-York/New-York/Household-Income'">Source of Sample Income Data for New York City</button>
 <button class = "link" onclick="document.location = 'https://www.bls.gov/cex/2018/aggregate/quintile.pdf'">Source of Sample Expenditure Data</button>
@@ -20,7 +21,9 @@
 <br>
 <br>
 <br>
+<div class="title">
 <h1><center>Calculator for Equity: Utility Pricing for the Residential Sector</center></h1>
+</div>
 <br>
 <br>
 <br>
@@ -69,10 +72,10 @@
 <p1 style="color: white; font-family: tisa; font-size: 1.5em"><center>The purpose of this calculator is to provide utility providers with a tool to help assess the cost burden imparted on residential consumers, which in turn may help communities accelerate towards cleaner, more sustainable energy consumption practices.</center></p1>
 <br>
 <br>
-<div id="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:scroll">
+<div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
   <!-- form for user of website tool to enter values to be used in calculations -->
   <form action="next.htm" method="GET">
-    <label for="notavailable" style="font-size:1.4em">*All questions refer only to figures relating to residential consumers.  Leave blank any queries for which data is unavailable, or provide an estimate.</label>
+    <label for="notavailable" style="font-size:1.4em">*All questions refer only to figures relating to residential consumers.  Please leave blank any queries for which data is unavailable, or provide an estimate.</label>
     <br>
     <label for="money_sign" style="font-size:1.4em">*Additionally, please make sure that all units of the same type (units of money or units of energy) are the same units (for instance, do not alternate between usage of dekatherms and therms for gas-related values in dekatherms)</label>
     <br>
@@ -83,72 +86,84 @@
     <br>
     <br>
     <label for="elec_households" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the number of households consuming electricity.</center></label>
-    <input type="number" id="elec_households" placeholder=3184496 name="elec_households">
+    <input type="number" id="elec_households" value=3184496 name="elec_households">
     <br>
     <label for="fix_electric_charge" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the sum of the average monthly fixed charge for electricity.</center></label>
-    <input type="number" step = "0.01" id="fix_elec_charge" placeholder=0.62 name="fix_elec_charge">
+    <input type="number" step = "0.01" id="fix_elec_charge" value=0.62 name="fix_elec_charge">
     <br>
     <label for="var_elec_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average variable charge per unit for electricity.</center></label>
-    <input type="number" step = "0.01" id="var_elec_charge" placeholder= 0.20 name="var_elec_charge">
+    <input type="number" step = "0.01" id="var_elec_charge" value= 0.20 name="var_elec_charge">
     <br>
     <label for="gas_households" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the number of households consuming gas.</center></label>
-    <input type="number" id="gas_households" placeholder=837631 name="gas_households">
+    <input type="number" id="gas_households" value=837631 name="gas_households">
     <br>
     <label for="fix_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average monthly fixed charge for gas.</center></label>
-    <input type="number" step = "0.01" id="fix_gas_charge" placeholder=22.22 name="fix_gas_charge">
+    <input type="number" step = "0.01" id="fix_gas_charge" value=22.22 name="fix_gas_charge">
     <br>
     <label for="var_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average variable charge per unit for gas.</center></label>
-    <input type="number" step = "0.01" id="var_gas_charge" placeholder=0.96 name="var_gas_charge">
+    <input type="number" step = "0.01" id="var_gas_charge" value=0.96 name="var_gas_charge">
     <br>
     <label for="avg_elec_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the average annual electricity consumption.</center></label>
-    <input type="number" step = "0.01" id="avg_elec_consumption" placeholder=4090 name="avg_elec_consumption">
+    <input type="number" step = "0.01" id="avg_elec_consumption" value=4090 name="avg_elec_consumption">
     <br>
     <label for="avg_gas_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the average annual gas consumption.</center></label>
-    <input type="number" step = "0.01" id="avg_gas_consumption" placeholder=1000 name="avg_gas_consumption">
+    <input type="number" step = "0.01" id="avg_gas_consumption" value=1000 name="avg_gas_consumption">
     <br>
     <label for="maximum_revenue" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the maximum allowed annual revenue for gas and electricity sales.</center></label>
-    <input type="number" step = "0.01" id="maximum_revenue" placeholder=4000000000 name="maximum_revenue">
+    <input type="number" step = "0.01" id="maximum_revenue" value=4000000000 name="maximum_revenue">
     <br>
     <label for="total_expense" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the estimated total expense associated with providing electricity/gas to the households in question.</center></label>
-    <input type="number" step = "0.01" id="total_expense" placeholder=2809850666.67 name="total_expense">
+    <input type="number" step = "0.01" id="total_expense" value=2809850666.67 name="total_expense">
+    <br>
+    <br>
     <br>
     <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide a number for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
-    <input type="number" step = "0.001" id="elec_usage_ratio" placeholder=1.163 name="elec_usage_ratio">
+    <input type="number" step = "0.001" id="elec_usage_ratio" value=1.163 name="elec_usage_ratio">
+    <center><p style="font-size:1.3em">"*If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions)."</p></center>
     <br>
-    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide a number for defining the difference between low, medium, and high gas usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
-    <input type="number" step = "0.001" id="gas_usage_ratio" placeholder=1.2 name="gas_usage_ratio">
+    <br>
+    <br>
+    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide a number for defining the difference between low, medium, and high gas usage.</center></label>
+    <input type="number" step = "0.001" id="gas_usage_ratio" value=1.2 name="gas_usage_ratio">
+    <center><p style="font-size:1.3em">"*If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions)."</p></center>
     <br>
     <br>
     <br>
     <label for="q_one" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the first income quintile of residential consumers. </center></label>
-    <input type="number" id="quintile_one" placeholder=9500 name="quintile_one">
+    <input type="number" id="quintile_one" value=9500 name="quintile_one">
     <br>
     <label for="q_two" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the second income quintile of residential consumers.</center></label>
-    <input type="number" id="quintile_two" placeholder=29200 name="quintile_two">
+    <input type="number" id="quintile_two" value=29200 name="quintile_two">
     <br>
     <label for="q_three" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the third income quintile of residential consumers.</center></label>
-    <input type="number" id="quintile_three" placeholder=55700 name="quintile_three">
+    <input type="number" id="quintile_three" value=55700 name="quintile_three">
     <br>
     <label for="q_four" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the fourth income quintile of residential consumers.</center></label>
-    <input type="number" id="quintile_four" placeholder=94700 name="quintile_four">
+    <input type="number" id="quintile_four" value=94700 name="quintile_four">
     <br>
     <label for="q_five" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the fifth income quintile of residential consumers.</center></label>
-    <input type="number" id="quintile_five" placeholder=253100 name="quintile_five">
+    <input type="number" id="quintile_five" value=253100 name="quintile_five">
     <br>
     <label for="multiplier_for_fix_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the number by which you want to multiply the current fixed charges in order to decrease them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_fix_charge" placeholder=0 name="multiplier_for_fix_charge">
+    <input type="number" step = "0.001" id="multiplier_for_fix_charge" value=0 name="multiplier_for_fix_charge">
     <br>
     <label for="multiplier_for_var_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the number by which you want to multiply the current variable charges in order to increase them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_var_charge" placeholder=0 name="multiplier_for_var_charge">
+    <input type="number" step = "0.001" id="multiplier_for_var_charge" value=0 name="multiplier_for_var_charge">
     <br>
-    <label for="add_monthly_elec_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
-    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" placeholder=0 name="add_monthly_elec_charge_for_high_usage">
+    <label for="add_monthly_elec_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for electricity usage for household category 15.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" value=0 name="add_monthly_elec_charge_for_high_usage">
     <br>
-    <label for="add_monthly_gas_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
-    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" placeholder= 0 name="add_monthly_gas_charge_for_high_usage">
+    <label for="add_monthly_gas_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household category 15.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" value= 0 name="add_monthly_gas_charge_for_high_usage">
     <br>
+    <label for="add_monthly_elec_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for electricity usage for household categories 12 and 14.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_sec_high_usage" value=0 name="add_monthly_elec_charge_for_sec_high_usage">
+    <br>
+    <label for="add_monthly_gas_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household categories 12 and 14.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_sec_high_usage" value= 0 name="add_monthly_gas_charge_for_sec_high_usage">
+    <br> 
     <label for="benefits" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
-    <input type="number" step = "0.01" id="benefits" placeholder=46.50 name="benefits">
+    <input type="number" step = "0.01" id="benefits" value=46.50 name="benefits">
     <br>
     <br>
     <br>
