@@ -7,6 +7,7 @@
 <head>
 <link rel="stylesheet" type="text/css" href="stylesheet.css">
 <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body style="background-color: rgb(0,0,70);">
 <br>
@@ -159,6 +160,12 @@
     <label for="add_monthly_gas_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household category 15.</center></label>
     <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" placeholder= 0 name="add_monthly_gas_charge_for_high_usage">
     <br>
+    <label for="add_monthly_elec_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for electricity usage for household categories 12 and 14.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" placeholder=0 name="add_monthly_elec_charge_for_high_usage">
+    <br>
+    <label for="add_monthly_gas_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household categories 12 and 14.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" placeholder= 0 name="add_monthly_gas_charge_for_high_usage">
+    <br>
     <label for="benefits" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
     <input type="number" step = "0.01" id="benefits" placeholder=46.50 name="benefits">
     <br>
@@ -202,7 +209,7 @@ function makeDictionary(mykeys, vals) {
     var ob = {};
     // list of default values that will be used if a corresponding value was not typed into the form
     // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-    var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
+    var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
 
     for (var i = 0; i < mykys.length; i++) {
         ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
@@ -398,6 +405,7 @@ function ann_gas_payment_per_hhtype(ob, hhs) {
       hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge);
       i++;
     } 
+    alert(JSON.stringify(myob));
     var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result9;
 }
@@ -661,7 +669,13 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             ticks: {
               autoSkip: false,
               fontSize: 20,
-              stepSize: 500000000
+              stepSize: 500000000,
+              callback: function(value, index, values) {
+       	        value = value.toString();
+        	value = value.split(/(?=(?:...)*$)/);
+        	value = value.join(',');
+        	return value;
+              }
             }
           }]
         }
@@ -723,7 +737,7 @@ function calcVerdict(final_revenue, ob, hhs) {
 
 
 var mykeys = getKys();
-var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 46.50];
+var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
 var dict = makeDictionary(mykeys, sample);
 var newdict = makeDictionary(mykeys, myvals);
