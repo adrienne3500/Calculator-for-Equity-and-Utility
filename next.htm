@@ -78,10 +78,10 @@
 <p id = "verdict" style = "font-size: 1.4em"></p>
 <br>
 <br>
+<br>
+<br>
+<br>
 <center><button class = "switch_page" id="myb">Evaluate New Inputs</button></center>
-<br>
-<br>
-<br>
 <div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
   <!-- form for user of website tool to enter values to be used in calculations -->
   <form action="next.htm" id = "form1" style="display:none" method="GET">
@@ -671,9 +671,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
               fontSize: 20,
               stepSize: 500000000,
               callback: function(value, index, values) {
-       	        value = value.toString();
-        	value = value.split(/(?=(?:...)*$)/);
-        	value = value.join(',');
+       	        value = value.toLocaleString();
         	return value;
               }
             }
@@ -699,7 +697,7 @@ function getRevenue(mydict) {
 }
 
 function comma_thousands(n) {
-    return n.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+    return n.toLocaleString();
 }
 
 function newData(chart, label, data) {
@@ -721,7 +719,10 @@ function calcVerdict(final_revenue, ob, hhs) {
   }
   // maybe implement function that calculates value needed when all other values stay constant, for multiple values
   if (revenue < myob["total_expense"]) {
-    document.getElementById("verdict").innerHTML += `The lower threshold for revenue (${Math.round(myob["total_expense"]*100)/100}) has not been met; the current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)}. You may want to focus on increasing your entered charges.` + "<br><br>"; 
+    document.getElementById("verdict").innerHTML += `The lower threshold for revenue ($${comma_thousands(Math.round(myob["total_expense"]*100)/100)}) has not been met; the current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)}.` + "<br><br>" + `You may want to focus on increasing your entered charges, while potentially decreasing your entered rates or increasing your entered benefits.` + "<br><br>"; 
+    if (suggestion[0] == 1) {
+      document.getElementById("verdict").innerHTML += "You may want to focus on increasing benefits and charges simultaneously, since the current cost burden exceeds allowed limits and the current revenue does not meet the target minimum.";
+    }
   } else if (revenue > myob["maximum_revenue"]) {
     document.getElementById("verdict").innerHTML += `The current revenue ($${comma_thousands(Math.round(final_revenue*100)/100)}) is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}).` + "<br><br>";
     if (suggestion[0] == 1) {
