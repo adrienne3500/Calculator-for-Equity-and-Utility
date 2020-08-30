@@ -9,7 +9,7 @@
 <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
-<body style="background-color: rgb(0,0,70);">
+<body style="background-color: rgb(0,0,90);">
 <br>
 <center>
 <button class = "link" onclick="document.location = 'https://statisticalatlas.com/place/New-York/New-York/Household-Income'">Source of Sample Income Data for New York City</button>
@@ -28,42 +28,52 @@
 <br>
 <table class="center" id="mytable">
   <tr>
-    <th>Income</th>
-    <th>Low Consumption</th> 
-    <th>Medium Consumption</th> 
-    <th>High Consumption</th> 
+  <th colspan="5" style="background-color: rgb(50, 40, 200)">Household Categories</th>
   </tr>
   <tr>
-    <td>First Quintile (Lowest) </td>
-    <td>Category One</td>
-    <td>Category Two</td>
-    <td>Category Three</td>
+  <th style="background-color: rgb(110, 0, 255)" rowspan="2" colspan="2"></th>
+  <th colspan="3" style="background-color: rgb(110, 0, 255)">Consumption</th>
+  </tr>
+  <tr style="background-color:rgb(0,0,0)">
+    <th style="background-color: rgb(110, 0, 255)">Low</th> 
+    <th style="background-color: rgb(110, 0, 255)">Medium</th> 
+    <th style="background-color: rgb(110, 0, 255)">High</th> 
   </tr>
   <tr>
-  <td>Second Quintile</td>
-  <td>Category Four</td>
-  <td>Category Five</td>
-  <td>Category Six</td>
+    <th rowspan="5" style="background-color: rgb(110, 0, 255)">Income Quintile (Q)</th>
+    <th style="background-color: rgb(110, 0, 255)">1 (Lowest) </th>
+    <td>Q1Low</td>
+    <td>Q1Med</td>
+    <td>Q1High</td>
   </tr>
   <tr>
-  <td>Third Quintile</td>
-  <td>Category Seven</td>
-  <td>Category Eight</td>
-  <td>Category Nine</td>
+  <th style="background-color: rgb(110, 0, 255)">2</th>
+  <td>Q2Low</td>
+  <td>Q2Med</td>
+  <td>Q2High</td>
   </tr>
   <tr>
-  <td>Fourth Quintile</td>
-  <td>Category Ten</td>
-  <td>Category Eleven</td>
-  <td>Category Twelve</td>
+  <th style="background-color: rgb(110, 0, 255)">3</th>
+  <td>Q3Low</td>
+  <td>Q3Med</td>
+  <td>Q4High</td>
   </tr>
   <tr>
-  <td>Fifth Quintile (Highest)</td>
-  <td>Category Thirteen</td>
-  <td>Category Fourteen</td>
-  <td>Category Fifteen</td>
+  <th style="background-color: rgb(110, 0, 255)">4</th>
+  <td>Q4Low</td>
+  <td>Q4Med</td>
+  <td>Q4High</td>
+  </tr>
+  <tr>
+  <th style="background-color: rgb(110, 0, 255)">5 (Highest)</th>
+  <td>Q5Low</td>
+  <td>Q5Med</td>
+  <td>Q5High</td>
   </tr>
 </table>
+<br>
+<br>
+<br>
 <br>
 <br>
 <br>
@@ -85,88 +95,98 @@
 <div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
   <!-- form for user of website tool to enter values to be used in calculations -->
   <form action="next.htm" id = "form1" style="display:none" method="GET">
-    <label for="notavailable" style="font-size:1.4em">*All questions refer only to figures relating to residential consumers.  Please leave blank any queries for which data is unavailable, or provide an estimate.</label>
-    <br>
-    <label for="money_sign" style="font-size:1.4em">*Additionally, please make sure that all units of the same type (units of money or units of energy) are the same units (for instance, do not alternate between usage of dekatherms and therms for gas-related values in dekatherms)</label>
+    <label for="notavailable" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*All questions refer only to figures relating to residential consumers.  Please leave blank any queries for which data is unavailable, or provide an estimate.</label>
     <br>
     <br>
-    <label for="money_sign" style="font-size:1.4em">*If you do not enter any values, sample data for New York City will be utilized.</label> 
+    <label for="units" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*Additionally, please ensure consistency between units of energy of the same type (for instance, do not alternate between usage of dekatherms and therms for gas-related values in dekatherms)</label>
+    <br>
+    <br>
+    <label for="money_sign" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*Please enter monetary values in dollars and cents.</label>
+    <br>
+    <br>
+    <label for="money_sign" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*If you do not enter any values, sample data for New York City will be utilized.</label> 
     <br>
     <br>
     <br>
     <br>
-    <label for="elec_households" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the number of households consuming electricity.</center></label>
+    <label for="elec_households" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the number of households consuming electricity.</center></label>
     <input type="number" id="elec_households" value=3184496 name="elec_households">
     <br>
-    <label for="fix_electric_charge" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the sum of the average monthly fixed charge for electricity.</center></label>
+    <label for="fix_electric_charge" style = "width: 900px; display: inline-block;  font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the sum of the average monthly fixed charge for electricity.</center></label>
     <input type="number" step = "0.01" id="fix_elec_charge" value=20.24 name="fix_elec_charge">
     <br>
-    <label for="var_elec_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average variable charge per unit for electricity.</center></label>
+    <label for="var_elec_charge" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the sum of the average variable charge per unit for electricity.</center></label>
     <input type="number" step = "0.01" id="var_elec_charge" value= 0.20 name="var_elec_charge">
     <br>
-    <label for="gas_households" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the number of households consuming gas.</center></label>
+    <label for="gas_households" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the number of households consuming gas.</center></label>
     <input type="number" id="gas_households" value=837631 name="gas_households">
     <br>
-    <label for="fix_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average monthly fixed charge for gas.</center></label>
-    <input type="number" step = "0.01" id="fix_gas_charge" value=25 name="fix_gas_charge">
+    <label for="fix_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the sum of the average monthly fixed charge for gas.</center></label>
+    <input type="number" step = "0.01" id="fix_gas_charge" value=25.00 name="fix_gas_charge">
     <br>
-    <label for="var_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the sum of the average variable charge per unit for gas.</center></label>
+    <label for="var_gas_charge" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the sum of the average variable charge per unit for gas.</center></label>
     <input type="number" step = "0.01" id="var_gas_charge" value=1.239329 name="var_gas_charge">
     <br>
-    <label for="avg_elec_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the average annual electricity consumption.</center></label>
-    <input type="number" step = "0.01" id="avg_elec_consumption" value=4090 name="avg_elec_consumption">
+    <label for="avg_elec_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the average annual electricity consumption.</center></label>
+    <input type="number" step = "0.01" id="avg_elec_consumption" value=3600 name="avg_elec_consumption">
     <br>
-    <label for="avg_gas_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please provide the average annual gas consumption.</center></label>
+    <label for="avg_gas_consumption" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the average annual gas consumption.</center></label>
     <input type="number" step = "0.01" id="avg_gas_consumption" value=1000 name="avg_gas_consumption">
     <br>
-    <label for="maximum_revenue" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the maximum allowed annual revenue for gas and electricity sales.</center></label>
-    <input type="number" step = "0.01" id="maximum_revenue" value=4000000000 name="maximum_revenue">
+    <label for="maximum_revenue" style = "width: 900px; display: inline-block;  font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the maximum allowed annual revenue for gas and electricity sales.</center></label>
+    <input type="number" step = "0.01" id="maximum_revenue" value=4000000000.00 name="maximum_revenue">
     <br>
-    <label for="total_expense" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide the estimated total expense associated with providing electricity/gas to the households in question.</center></label>
+    <label for="total_expense" style = "width: 900px; display: inline-block;  font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide the estimated total expense associated with providing electricity/gas to the households in question.</center></label>
     <input type="number" step = "0.01" id="total_expense" value=2809850666.67 name="total_expense">
     <br>
-    <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide a number for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
-    <input type="number" step = "0.001" id="elec_usage_ratio" value=1.163 name="elec_usage_ratio">
     <br>
-    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em"><center>Please provide a number for defining the difference between low, medium, and high gas usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
+    <br>
+    <label for="elec_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide a relative demand factor for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
+    <input type="number" step = "0.001" id="elec_usage_ratio" value=1.15900 name="elec_usage_ratio">
+    <center><p style="font-size:1.3em">"*If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions)."</p></center>
+    <br>
+    <br>
+    <br>
+    <label for="gas_usage_ratio" style = "width: 900px; display: inline-block;  font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please provide a relative demand factor for defining the difference between low, medium, and high gas usage.</center></label>
     <input type="number" step = "0.001" id="gas_usage_ratio" value=1.2 name="gas_usage_ratio">
+    <center><p style="font-size:1.3em">"*If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions)."</p></center>
     <br>
     <br>
     <br>
-    <label for="q_one" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the first income quintile of residential consumers. </center></label>
+    <label for="q_one" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average annual income for the first income quintile of residential consumers. </center></label>
     <input type="number" id="quintile_one" value=9500 name="quintile_one">
     <br>
-    <label for="q_two" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the second income quintile of residential consumers.</center></label>
+    <label for="q_two" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average annual income for the second income quintile of residential consumers.</center></label>
     <input type="number" id="quintile_two" value=29200 name="quintile_two">
     <br>
-    <label for="q_three" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the third income quintile of residential consumers.</center></label>
+    <label for="q_three" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average annual income for the third income quintile of residential consumers.</center></label>
     <input type="number" id="quintile_three" value=55700 name="quintile_three">
     <br>
-    <label for="q_four" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the fourth income quintile of residential consumers.</center></label>
+    <label for="q_four" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average annual income for the fourth income quintile of residential consumers.</center></label>
     <input type="number" id="quintile_four" value=94700 name="quintile_four">
     <br>
-    <label for="q_five" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average annual income for the fifth income quintile of residential consumers.</center></label>
+    <label for="q_five" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average annual income for the fifth income quintile of residential consumers.</center></label>
     <input type="number" id="quintile_five" value=253100 name="quintile_five">
     <br>
-    <label for="multiplier_for_fix_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the number by which you want to multiply the current fixed charges in order to decrease them.</center></label>
+    <label for="multiplier_for_fix_charge" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the number by which you want to multiply the current fixed charges in order to decrease them.</center></label>
     <input type="number" step = "0.001" id="multiplier_for_fix_charge" value=0 name="multiplier_for_fix_charge">
     <br>
-    <label for="multiplier_for_var_charge" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the number by which you want to multiply the current variable charges in order to increase them.</center></label>
+    <label for="multiplier_for_var_charge" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the number by which you want to multiply the current variable charges in order to increase them.</center></label>
     <input type="number" step = "0.001" id="multiplier_for_var_charge" value=0 name="multiplier_for_var_charge">
     <br>
-    <label for="add_monthly_elec_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for electricity usage for household category 15.</center></label>
+    <label for="add_monthly_elec_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input any desired additional fixed monthly charge for electricity usage for household category Q5High.</center></label>
     <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" value=0 name="add_monthly_elec_charge_for_high_usage">
     <br>
-    <label for="add_monthly_gas_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household category 15.</center></label>
+    <label for="add_monthly_gas_charge_for_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input any desired additional fixed monthly charge for gas usage for household category Q5High.</center></label>
     <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" value= 0 name="add_monthly_gas_charge_for_high_usage">
     <br>
-    <label for="add_monthly_elec_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for electricity usage for household categories 12 and 14.</center></label>
-    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" value=0 name="add_monthly_elec_charge_for_high_usage">
+    <label for="add_monthly_elec_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input any desired additional fixed monthly charge for electricity usage for household categories Q4High and Q5Med.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_sec_high_usage" value=0 name="add_monthly_elec_charge_for_sec_high_usage">
     <br>
-    <label for="add_monthly_gas_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input any desired additional fixed monthly charge for gas usage for household categories 12 and 14.</center></label>
-    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_high_usage" value= 0 name="add_monthly_gas_charge_for_high_usage">
-    <br>
-    <label for="benefits" style = "width: 900px; display: inline-block; font-size: 1.4em"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
+    <label for="add_monthly_gas_charge_for_sec_high_usage" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input any desired additional fixed monthly charge for gas usage for household categories Q4High and Q5Med.</center></label>
+    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_sec_high_usage" value= 0 name="add_monthly_gas_charge_for_sec_high_usage">
+    <br> 
+    <label for="benefits" style = "width: 900px; display: inline-block; font-size: 1.4em; font-family: 'Georgia', 'serif'"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
     <input type="number" step = "0.01" id="benefits" value=46.50 name="benefits">
     <br>
     <br>
@@ -209,7 +229,7 @@ function makeDictionary(mykeys, vals) {
     var ob = {};
     // list of default values that will be used if a corresponding value was not typed into the form
     // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-    var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
+    var sample = [3184496.00, 20.2400, 0.20, 837631, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
 
     for (var i = 0; i < mykys.length; i++) {
         ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
@@ -237,9 +257,9 @@ function hhcategories(myob) {
     var i = 1;
     while (quint<=5) {
       var qnum = `quintile_${ quint }`;
-      hhtypes[i]["income"] = parseFloat(myob[qnum]);
-      hhtypes[i+1]["income"] = parseFloat(myob[qnum]);
-      hhtypes[i+2]["income"] = parseFloat(myob[qnum]);
+      hhtypes[i]["income"] = parseFloat(myob[qnum]).toFixed(2);
+      hhtypes[i+1]["income"] = parseFloat(myob[qnum]).toFixed(2);
+      hhtypes[i+2]["income"] = parseFloat(myob[qnum]).toFixed(2);
       i+=3;
       quint++;
     }
@@ -275,9 +295,9 @@ function elec_usage_vals(ob, hhs) {
     var elec_usage_ratio = parseFloat(myob["elec_usage_ratio"]);
     var pow = 3;
     while (i<=13) {
-      hhtypes[i]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow)));
-      hhtypes[i+1]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow-1)));
-      hhtypes[i+2]["elec_usage_category"] = parseFloat(avg_elec_consumption/(elec_usage_ratio**(pow-2)));
+      hhtypes[i]["elec_usage_category"] = avg_elec_consumption/(elec_usage_ratio**(pow));
+      hhtypes[i+1]["elec_usage_category"] = avg_elec_consumption/(elec_usage_ratio**(pow-1));
+      hhtypes[i+2]["elec_usage_category"] = avg_elec_consumption/(elec_usage_ratio**(pow-2));
       i +=3;
       pow -=1;
     }   
@@ -297,6 +317,7 @@ function ann_elec_consumption(ob, hhs) {
       hhtypes[i+2]["ann_elec_per_type"] = elec_households * hhtypes[i+2]["distribution"] * hhtypes[i+2]["elec_usage_category"];
       i++;
     } 
+  
     var result3 = ann_elec_payment_per_hhtype(myob, hhtypes);
     return result3;
 }
@@ -349,6 +370,7 @@ function elec_burden_before_benefits(ob, hhs) {
       hhtypes[i+2]["elec_burden_before_benefits"] = (hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"]/hhtypes[i+2]["income"]);
       i++;
     } 
+    
     var result6 = gas_usage_vals(myob, hhtypes);   
     return result6;
 }
@@ -405,7 +427,6 @@ function ann_gas_payment_per_hhtype(ob, hhs) {
       hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge);
       i++;
     } 
-    alert(JSON.stringify(myob));
     var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result9;
 }
@@ -453,6 +474,8 @@ function ann_combined_payment_per_hh_per_hhtype_after_benefits(ob, hhs) {
       hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"] - benefits);
       i++;
     } 
+    
+
     var i = 7;
     while (i<=13) {
       hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"] = (hhtypes[i]["elec_payment_by_hh_per_type_no_ben"] + hhtypes[i]["gas_payment_by_hh_per_type_no_ben"]);
@@ -470,9 +493,9 @@ function combined_cost_burden_after_benefits(ob, hhs) {
     var hhtypes = hhs;
     var i = 1;
     while (i<=13) {
-      hhtypes[i]["combined_cost_burden_after_benefits"] = (hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i]["income"]);
-      hhtypes[i+1]["combined_cost_burden_after_benefits"] = (hhtypes[i+1]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i+1]["income"]);
-      hhtypes[i+2]["combined_cost_burden_after_benefits"] = (hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/hhtypes[i+2]["income"]);
+      hhtypes[i]["combined_cost_burden_after_benefits"] = hhtypes[i]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/(hhtypes[i]["income"]);
+      hhtypes[i+1]["combined_cost_burden_after_benefits"] = hhtypes[i+1]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/(hhtypes[i+1]["income"]);
+      hhtypes[i+2]["combined_cost_burden_after_benefits"] = hhtypes[i+2]["ann_combined_payment_per_hh_per_hhtype_w_ben"]/(hhtypes[i+2]["income"]);
       i++;
     } 
     var gas_list = [];
@@ -494,7 +517,6 @@ function combined_cost_burden_after_benefits(ob, hhs) {
       i += 1;
     }
     var revenue = getRevenue(hhtypes);
-
     var result13 = [gas_list, elec_list, combined_list, revenue, myob, hhtypes];
     return result13;
   }
@@ -505,12 +527,13 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
     var comb = combined_w_ben;
     var rev_i = revtypes_initial;
     var rev_f = revtypes_final;
-    var gas_round = gas.map(i => Math.round(parseFloat(i)*1000)/1000);
-    var elec_round = elec.map(i => Math.round(parseFloat(i)*1000)/1000);
-    var comb_round = comb.map(i => Math.round(parseFloat(i)*1000)/1000);
-    var rev_i_round = rev_i.map(i => Math.round(parseFloat(i)*100)/100);
-    var rev_f_round = rev_f.map(i => Math.round(parseFloat(i)*100)/100);
+    var gas_round = gas.map(i => parseFloat(i));
+    var elec_round = elec.map(i => parseFloat(i));
+    var comb_round = comb.map(i => parseFloat(i));
+    var rev_i_round = rev_i.map(i => parseFloat(i));
+    var rev_f_round = rev_f.map(i => parseFloat(i));
     var ctx = document.getElementById("myChart");
+    Chart.defaults.global.defaultFontFamily = "Georgia, script";
     var burdenchart = new Chart(ctx, {
       // The type of chart we want to create
       type: 'bar',
@@ -547,7 +570,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
         maintainAspectRatio: false,
         title: {
           display: true,
-          text: "Utility Cost Burden (% of Taxed Annual Household Income Paid Towards Utilities) Before vs. After Modifications",
+          text: "Utility Cost Burden (% of Taxed Annual Household Income Paid Towards Utilities) Before vs. After Rate Modifications/Benefits",
           fontSize: 25,
         },
         legend: {
@@ -600,7 +623,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
       data: {
         labels: ["Before", "After"],
         datasets: [{
-            label: "Gas Revenue",
+            label: "Annual Gas Revenue",
             fontSize: 20,
             backgroundColor: "rgb(50, 40, 120)",
             borderColor: "rgb(255, 99, 132)",
@@ -608,14 +631,14 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             data: [parseFloat(rev_i_round[1]), parseFloat(rev_f_round[1])]
           },
           {
-            label: "Electricity Revenue",
+            label: "Annual Electricity Revenue",
             backgroundColor: "rgb(50, 40, 200)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
             data: [parseFloat(rev_i_round[0]), parseFloat(rev_f_round[0])]
           },
           {
-            label: "Total Revenue",
+            label: "Total Annual Revenue",
             backgroundColor: "rgb(110, 0, 255)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 1",
@@ -629,7 +652,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
         maintainAspectRatio: false,
         title: {
           display: true,
-          text: "Revenue Before vs. After Modifications",
+          text: "Annual Revenue Before vs. After Modifications/Benefits",
           fontSize: 25,
         },
         legend: {
@@ -651,7 +674,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stacked: true,
             scaleLabel: {
               display: true,
-              labelString: "Time With Respect to Application of Modifications",
+              labelString: "Time With Respect to Application of Modifications/Benefits",
               fontSize: 20,
             },
             ticks: {
@@ -663,7 +686,7 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
             stacked: true,
             scaleLabel: {
               display: true,
-              labelString: 'Revenue (Dollars)',
+              labelString: 'Revenue',
               fontSize: 20,
             },
             ticks: {
@@ -671,8 +694,8 @@ function displayChart(gas_before_ben, elec_before_ben, combined_w_ben, revtypes_
               fontSize: 20,
               stepSize: 500000000,
               callback: function(value, index, values) {
-       	        value = value.toLocaleString();
-        	return value;
+                value = '$'+value.toLocaleString();
+            return value;
               }
             }
           }]
@@ -714,23 +737,26 @@ function calcVerdict(final_revenue, ob, hhs) {
   var hhtypes = hhs;
   var suggestion = [];
   if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-    document.getElementById("verdict").innerHTML = `The highest consumption, lowest income category experiences a cost burden that is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100) / 100) /0.06)*100+'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).  The energy cost burden for the first household category is ${((Math.round(hhtypes[1]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, the energy cost burden for the second household category is ${((Math.round(hhtypes[2]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, and the energy cost burden for the third household category is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}.` + "<br><br>";
+    document.getElementById("verdict").innerHTML = "<center>Burden</center>" + "<br><br>" + `Category Q1High experiences a cost burden of ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*100)/100)*100)+'%'}, which is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]/0.06 *100) *1000) / 1000) +'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).` + "<br><br>" + "<center>Revenue</center>" + "<br><br>";
     suggestion.push(1);
   }
   // maybe implement function that calculates value needed when all other values stay constant, for multiple values
   if (revenue < myob["total_expense"]) {
-    document.getElementById("verdict").innerHTML += `The lower threshold for revenue ($${comma_thousands(Math.round(myob["total_expense"]*100)/100)}) has not been met; the current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)}.` + "<br><br>" + `You may want to focus on increasing your entered charges, while potentially decreasing your entered rates or increasing your entered benefits.` + "<br><br>"; 
+    document.getElementById("verdict").innerHTML += `The lower threshold for revenue ($${comma_thousands(Math.round(myob["total_expense"]*100)/100)}) has not been met; the current revenue is $${comma_thousands(Math.round(revenue*100)/100)}.` + "<br><br>" + `You may want to focus on increasing your entered charges, while potentially decreasing your entered rates or increasing your entered benefits.` + "<br><br>"; 
     if (suggestion[0] == 1) {
-      document.getElementById("verdict").innerHTML += "You may want to focus on increasing benefits and charges simultaneously, since the current cost burden exceeds allowed limits and the current revenue does not meet the target minimum.";
+      document.getElementById("verdict").innerHTML += "<br><br><center>Conclusion</center><br><br>" + "You may want to focus on increasing benefits and charges simultaneously, since the current cost burden exceeds allowed limits and the current revenue does not meet the target minimum." + "<br><br>" + `The minimum benefits required for the condition where the target minimum revenue is met would be xxx in total.` + "<br><br>";
     }
   } else if (revenue > myob["maximum_revenue"]) {
-    document.getElementById("verdict").innerHTML += `The current revenue ($${comma_thousands(Math.round(final_revenue*100)/100)}) is above the upper threshold for revenue ($${comma_thousands(myob["maximum_revenue"])}).` + "<br><br>";
+    document.getElementById("verdict").innerHTML += `The current annual revenue ($${comma_thousands(Math.round(final_revenue*100)/100)}) surpasses the specified upper threshold for annual revenue ($${comma_thousands(myob["maximum_revenue"])}).` + "<br><br>";
     if (suggestion[0] == 1) {
-      document.getElementById("verdict").innerHTML += "You may want to focus on lowering charges since both cost burden and revenue exceed allowed limits.";
+      document.getElementById("verdict").innerHTML += "<br><br><center>Conclusion</center><br><br>" + "You may currently want to focus on lowering charges since both cost burden and revenue exceed allowed limits.";
     }
   } else {
-    document.getElementById("verdict").innerHTML += `The current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)} - the minimum and maximum bounds for revenue have been satisfied.`;
-  }
+    document.getElementById("verdict").innerHTML += `The current revenue is $${comma_thousands(Math.round(final_revenue*100)/100)} - the minimum and maximum specified bounds for revenue have been satisfied.`;
+    if (suggestion[0] == 1) {
+      document.getElementById("verdict").innerHTML += "<br><br><center>Conclusion</center><br><br>" + "You may want to focus on lowering charges since the present cost burden for lower-income households still exceeds allowed limits.";
+    } 
+  } 
   if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){ 
     document.getElementById("verdict").innerHTML += "All constraints have been met!";
   }
@@ -738,7 +764,7 @@ function calcVerdict(final_revenue, ob, hhs) {
 
 
 var mykeys = getKys();
-var sample = [3184496, 20.24, 0.20, 837631, 25, 1.239329, 4090, 1000, 4000000000, 2809850666.67, 1.163, 1.2, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
+var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 0, 0, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
 var dict = makeDictionary(mykeys, sample);
 var newdict = makeDictionary(mykeys, myvals);
