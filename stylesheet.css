@@ -1,37 +1,46 @@
     h1 {
       color: white; 
-      font-family: tisa; 
+      font-family: Georgia, serif; 
       font-size: 60px;
     }
     
 
     h2 {
       color: white;
-      font-family: tisa;
+      font-family: Georgia, serif;
       font-size: 40px;
 
     }
+    
+
+    p {
+      font-family: Georgia, serif;
+    }
+
     table.center {
       width: 50%; 
       margin-left: auto; 
       margin-right: auto;
       text-align: center;
       font-size: 1.3em;
+      font-family: Georgia, serif;
       border-collapse: collapse;
-      background-color: rgb(100,230,255);
+      background-color: rgb(100,200,255);
       padding: 10px;
     }
+    
 
     #mytable td {
-      padding: 18px; 
+      padding: 18px;
+      font-family: Georgia, serif;
       border: 1px solid rgb(0,0,70);
     }
 
     #mytable th {
-      background-color: rgb(0, 50, 150); 
       padding: 20px;
+      font-family: Georgia, serif;
       border: 1px solid rgb(0,0,70);
-      color: white;
+      color:white;
     }
 
 
@@ -78,34 +87,36 @@
     }
 
    .link {
-	background-color: rgb(0, 0, 70);
-	opacity: .9;
-        border: 1px rgb(0,0,70); 
-	transition: 0.2s; 
-	font-size: 1em; 
-	color: white; 
-	border-radius: 30px; 
-	padding: 40px 50px;
+    background-color: rgb(0, 0, 90);
+    opacity: .9;
+        border: 1px rgb(0,0,90); 
+    transition: 0.2s; 
+        font-family: Georgia, serif; 
+    font-size: 1.4em; 
+    color: white; 
+    border-radius: 30px; 
+    padding: 40px 50px;
         display: inline-block;        
 
     }
 
    .link:hover {
 
-	background-color: rgb(0, 0, 70);
-	opacity: 1;
-	border: 1px rgb(0,0,70); 
-	font-size: 1em; 
-	color: white; 
-	border-radius: 30px; 
-	padding: 40px 50px;
+    background-color: rgb(0, 0, 90);
+    opacity: 1;
+    border: 1px rgb(0,0,90); 
+    font-size: 1.4em; 
+        font-family: Georgia, serif; 
+    color: white; 
+    border-radius: 30px; 
+    padding: 40px 50px;
     }
     body {
       width: 100%;
     }
     .main {
       border-radius: 50px;
-      background-color: rgb(100, 230, 255);
+      background-color: rgb(100, 200, 255);
       padding: 50px;
     }
      
@@ -116,7 +127,7 @@
     }
     
     .title {
-      background-color: rgb(0, 50, 150);
+      background-color: rgb(50, 40, 200);
       padding: 50px;
     }
 
