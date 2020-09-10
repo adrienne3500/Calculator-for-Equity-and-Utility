@@ -1,7 +1,7 @@
     h1 {
       color: white; 
       font-family: Georgia, serif; 
-      font-size: 60px;
+      font-size: 50px;
     }
     
     label {
@@ -15,10 +15,16 @@
     h2 {
       color: white;
       font-family: Georgia, serif;
-      font-size: 40px;
+      font-size: 35px;
 
     }
     
+    p {
+      font-family: Georgia, serif;
+      font-size: 1.3em;
+      margin-top: 60px; 
+      margin-bottom: 60px; 
+    }
 
     p1 {
       font-family: Georgia, serif;
@@ -27,6 +33,7 @@
       margin-bottom: 100px; 
       color: white;
     }
+
 
     table.center {
       width: 50%; 
@@ -38,7 +45,7 @@
       font-size: 1.3em;
       font-family: Georgia, serif;
       border-collapse: collapse;
-      background-color: rgb(100,200,255);
+      background-color: rgb(70, 200, 255);
     }
     
 
@@ -58,7 +65,7 @@
 
 
     input[type=number], select {
-      font-size = 20px
+      font-size: 20px
       width: 100%;
       padding: 8px 5 px;
       margin: 10px 0;
@@ -68,9 +75,42 @@
       border-radius: 5px;
     }
 
+    .reveal_form {
+      border: 1px solid black; 
+      font-size: 18px; 
+      font-family: Georgia, serif;
+      background-color: rgb(0,0,70);
+      color: white;
+      padding: 18px 30px;
+      opacity: 0.7;
+      transition: 0.2s;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
+
+    .reveal_form:hover {
+      border: 1px solid black; 
+      font-size: 18px; 
+      font-family: Georgia, serif;
+      background-color: rgb(0,0,70);
+      color: white;
+      padding: 18px 30px;
+      opacity: 1;
+      margin: 8px 0;
+      border-radius: 10px;
+      cursor: pointer;
+      display: inline-block;
+      pointer-events: auto;
+    }
+
     .switch_page {
       border: 1px solid black; 
       font-size: 18px; 
+      font-family: Georgia, serif;
       background-color: rgb(0,0,70);
       color: white;
       padding: 18px 30px;
@@ -87,6 +127,7 @@
     .switch_page:hover {
       border: 1px solid black; 
       font-size: 18px; 
+      font-family: Georgia, serif;
       background-color: rgb(0,0,70);
       color: white;
       padding: 18px 30px;
@@ -101,14 +142,14 @@
    .link {
     background-color: rgb(0, 0, 90);
     opacity: .9;
-        border: 1px rgb(0,0,90); 
+    border: 1px rgb(0,0,90); 
     transition: 0.2s; 
-        font-family: Georgia, serif; 
+    font-family: Georgia, serif; 
     font-size: 1.4em; 
     color: white; 
     border-radius: 30px; 
     padding: 40px 50px;
-        display: inline-block;        
+    display: inline-block;        
 
     }
 
@@ -118,22 +159,24 @@
     opacity: 1;
     border: 1px rgb(0,0,90); 
     font-size: 1.4em; 
-        font-family: Georgia, serif; 
+    font-family: Georgia, serif; 
     color: white; 
     border-radius: 30px; 
     padding: 40px 50px;
+
     }
+
     body {
       width: 100%;
     }
+
     .main {
       border-radius: 50px;
-      background-color: rgb(100, 200, 255);
+      background-color: rgb(70, 200, 255);
       padding: 50px;
       margin-top: 100px;
       margin-bottom: 100px;
     }
-     
 
     #options_bar {
       width: 100%;
@@ -166,4 +209,9 @@
       background-size: cover;
       color: white; 
       font-size: 19px;
+    }
+
+    form {
+      margin-top: 50px;
+      margin-bottom: 50px;
     }
