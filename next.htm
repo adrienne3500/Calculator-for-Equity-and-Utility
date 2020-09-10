@@ -156,10 +156,10 @@
     <input type="number" id="quintile_five" value=253100 name="quintile_five">
     
     <label for="multiplier_for_fix_charge"><center>Please input the number by which you want to multiply the current fixed charges in order to decrease them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_fix_charge" value=0 name="multiplier_for_fix_charge">
+    <input type="number" step = "0.001" id="multiplier_for_fix_charge" value=1 name="multiplier_for_fix_charge">
     
     <label for="multiplier_for_var_charge"><center>Please input the number by which you want to multiply the current variable charges in order to increase them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_var_charge" value=0 name="multiplier_for_var_charge">
+    <input type="number" step = "0.001" id="multiplier_for_var_charge" value=1 name="multiplier_for_var_charge">
     
     <label for="add_monthly_elec_charge_for_high_usage"><center>Please input any desired additional fixed monthly charge for electricity usage for household category Q5High.</center></label>
     <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" value=0 name="add_monthly_elec_charge_for_high_usage">
@@ -176,10 +176,12 @@
     <label for="benefits"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
     <input type="number" class = "entry" step = "0.01" id="benefits" value=46.50 name="benefits">
     <input type='hidden' name='q' id='sample_keep_or_replace' value=1>
-    <p> If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the first button below.  If you would simply like to compare your most recent results with the website's sample results, you may prefer to press the latter button.</p> 
+    <p> If you would like to replace the existing default values with your most recently entered values, you may want to press the first button. </p>
+    <p>If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the second button below.</p>
+    <p>If you would simply like to compare your most recent results with the website's sample results, you may prefer to press the last button.</p> 
     <center><button class="switch_page" id="default_replace">Replace Default Values with Entered Values</button></center> 
     <center><button class="switch_page" type="button" id = "graph_new">Display New Results in Graph With Previously Obtained Results</button></center>
-    <center><button class="switch_page" id="default_keep">Revert to Default Values(Graph With Result History Will Reset)</button></center>
+    <center><button class="switch_page" id="default_keep">Revert to Default Values (Graph With Result History Will Reset)</button></center>
     </form>
 
 </div>
@@ -190,24 +192,21 @@
 <script language="JavaScript">
 
 // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 0, 0, 0, 0, 0, 0, 46.50, 1];
+var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 1, 1, 0, 0, 0, 0, 46.50, 1];
 
 
 //
 document.getElementById("default_replace").addEventListener("click", replace);
 document.getElementById("default_keep").addEventListener("click", keep);
 
-var default_was_changed = "no";
+
 
 // value of 0 or 1 is assigned to hidden form field to be passed to next page
 function replace() {
   document.getElementById("sample_keep_or_replace").value = 0;
-  alert(1);
-  alert(sample);
   var windowkeys = getKys();
   var windowvals = getValues(windowkeys);
   sample = windowvals;
-  alert(sample);
   alert(document.getElementById("sample_keep_or_replace").value);
 
 }
@@ -227,6 +226,7 @@ function getKys() {
     var s = window.location.search.replace(/[0-9]/g, ",").replace(/\W/ig, ',').replace(/,+/g,',');
     var s = s.replace("one", "1").replace("two", "2").replace("three", "3").replace("four", "4").replace("five", "5");
     var kys = s.substr(1,s.length-2).split(',');
+    alert(kys);
     return kys;
 }
 
@@ -363,18 +363,20 @@ function ann_elec_payment_per_hhtype(ob, hhs) {
     var elec_households = myob["elec_households"];
     var var_elec_charge = myob["var_elec_charge"];
     var fix_elec_charge = myob["fix_elec_charge"];
+    var multiplier_for_fix_charge = myob["multiplier_for_fix_charge"];
+    var multiplier_for_var_charge = myob["multiplier_for_var_charge"];
     var add_elec_high = myob["add_monthly_elec_charge_for_high_usage"];
     var add_elec_sec_high = myob["add_monthly_elec_charge_for_sec_high_usage"];
     var i = 1;
     while (i<=13) {
-      hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge;
-      hhtypes[i+1]["elec_payment_by_type"] = hhtypes[i+1]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i+1]["distribution"] * 12 * fix_elec_charge;
-      hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i+2]["distribution"] * 12 * fix_elec_charge;
+      hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge;
+      hhtypes[i+1]["elec_payment_by_type"] = hhtypes[i+1]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i+1]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge;
+      hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i+2]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge;
       i++;
     } 
-    hhtypes[12]["elec_payment_by_type"] = hhtypes[12]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[12]["distribution"] * 12 * add_elec_sec_high;
-    hhtypes[14]["elec_payment_by_type"] = hhtypes[14]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[14]["distribution"] * 12 * add_elec_sec_high;
-    hhtypes[15]["elec_payment_by_type"] = hhtypes[15]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[15]["distribution"] * 12 * add_elec_high; 
+    hhtypes[12]["elec_payment_by_type"] = hhtypes[12]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge + elec_households * hhtypes[12]["distribution"] * 12 * add_elec_sec_high;
+    hhtypes[14]["elec_payment_by_type"] = hhtypes[14]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge + elec_households * hhtypes[14]["distribution"] * 12 * add_elec_sec_high;
+    hhtypes[15]["elec_payment_by_type"] = hhtypes[15]["ann_elec_per_type"] * var_elec_charge * multiplier_for_var_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge * multiplier_for_fix_charge + elec_households * hhtypes[15]["distribution"] * 12 * add_elec_high; 
     var result4 = ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result4;
 }
@@ -466,23 +468,25 @@ function ann_gas_payment_per_hhtype(ob, hhs) {
     var gas_households = myob["gas_households"];
     var var_gas_charge = myob["var_gas_charge"];
     var fix_gas_charge = myob["fix_gas_charge"];
+    var multiplier_for_fix_charge = myob["multiplier_for_fix_charge"];
+    var multiplier_for_var_charge = myob["multiplier_for_var_charge"];
     var add_gas_high = myob["add_monthly_gas_charge_for_high_usage"];
     var add_gas_sec_high = myob["add_monthly_gas_charge_for_sec_high_usage"];
     var i = 1;
     while (i<=11) {
-      hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i]["distribution"] * 12 * fix_gas_charge);
-      hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+1]["distribution"] * 12 * fix_gas_charge);
-      hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge);
-      hhtypes[i+3]["gas_payment_by_type"] = (hhtypes[i+3]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+3]["distribution"] * 12 * fix_gas_charge);
-      hhtypes[i+4]["gas_payment_by_type"] = (hhtypes[i+4]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+4]["distribution"] * 12 * fix_gas_charge);
+      hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[i]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge);
+      hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[i+1]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge);
+      hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge);
+      hhtypes[i+3]["gas_payment_by_type"] = (hhtypes[i+3]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[i+3]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge);
+      hhtypes[i+4]["gas_payment_by_type"] = (hhtypes[i+4]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[i+4]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge);
       i++;
     } 
 
     // upper three consumption categories are recalculated to account for any additional charges imposed due to high consumption
 
-    hhtypes[12]["gas_payment_by_type"] = hhtypes[12]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[12]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[12]["distribution"] * 12 * add_gas_sec_high;
-    hhtypes[14]["gas_payment_by_type"] = hhtypes[14]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[14]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[14]["distribution"] * 12 * add_gas_sec_high;
-    hhtypes[15]["gas_payment_by_type"] = hhtypes[15]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[15]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[15]["distribution"] * 12 * add_gas_high; 
+    hhtypes[12]["gas_payment_by_type"] = hhtypes[12]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[12]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge + gas_households * hhtypes[12]["distribution"] * 12 * add_gas_sec_high;
+    hhtypes[14]["gas_payment_by_type"] = hhtypes[14]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[14]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge + gas_households * hhtypes[14]["distribution"] * 12 * add_gas_sec_high;
+    hhtypes[15]["gas_payment_by_type"] = hhtypes[15]["ann_gas_per_type"] * var_gas_charge * multiplier_for_var_charge + gas_households * hhtypes[15]["distribution"] * 12 * fix_gas_charge * multiplier_for_fix_charge + gas_households * hhtypes[15]["distribution"] * 12 * add_gas_high; 
     var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result9;
 }
