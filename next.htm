@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <meta charset="UTF-8"/>
@@ -22,49 +21,47 @@
 <h1><center>Calculator for Equity: Utility Pricing for the Residential Sector</center></h1>
 </div>
 
-
-<h2><center>Calculated Results</center></h2>
-
+// table explaining household categories
 <table class="center" id="mytable">
   <tr>
   <th colspan="5" style="background-color: rgb(50, 40, 200)">Household Categories</th>
   </tr>
   <tr>
-  <th style="background-color: rgb(110, 0, 255)" rowspan="2" colspan="2"></th>
-  <th colspan="3" style="background-color: rgb(110, 0, 255)">Consumption</th>
+  <th style="background-color: rgb(0, 110, 255)" rowspan="2" colspan="2"></th>
+  <th colspan="3" style="background-color: rgb(0, 110, 255)">Consumption</th>
   </tr>
   <tr style="background-color:rgb(0,0,0)">
-    <th style="background-color: rgb(110, 0, 255)">Low</th> 
-    <th style="background-color: rgb(110, 0, 255)">Medium</th> 
-    <th style="background-color: rgb(110, 0, 255)">High</th> 
+    <th style="background-color: rgb(0, 110, 255)">Low</th> 
+    <th style="background-color: rgb(0, 110, 255)">Medium</th> 
+    <th style="background-color: rgb(0, 110, 255)">High</th> 
   </tr>
   <tr>
-    <th rowspan="5" style="background-color: rgb(110, 0, 255)">Income Quintile (Q)</th>
-    <th style="background-color: rgb(110, 0, 255)">1 (Lowest) </th>
+    <th rowspan="5" style="background-color: rgb(0, 110, 255)">Income Quintile (Q)</th>
+    <th style="background-color: rgb(0, 110, 255)">1 (Lowest) </th>
     <td>Q1Low</td>
     <td>Q1Med</td>
     <td>Q1High</td>
   </tr>
   <tr>
-  <th style="background-color: rgb(110, 0, 255)">2</th>
+  <th style="background-color: rgb(0, 110, 255)">2</th>
   <td>Q2Low</td>
   <td>Q2Med</td>
   <td>Q2High</td>
   </tr>
   <tr>
-  <th style="background-color: rgb(110, 0, 255)">3</th>
+  <th style="background-color: rgb(0, 110, 255)">3</th>
   <td>Q3Low</td>
   <td>Q3Med</td>
   <td>Q4High</td>
   </tr>
   <tr>
-  <th style="background-color: rgb(110, 0, 255)">4</th>
+  <th style="background-color: rgb(0, 110, 255)">4</th>
   <td>Q4Low</td>
   <td>Q4Med</td>
   <td>Q4High</td>
   </tr>
   <tr>
-  <th style="background-color: rgb(110, 0, 255)">5 (Highest)</th>
+  <th style="background-color: rgb(0, 110, 255)">5 (Highest)</th>
   <td>Q5Low</td>
   <td>Q5Med</td>
   <td>Q5High</td>
@@ -78,26 +75,23 @@
 <center><canvas id="revenueHistory" width="500" height="500"></canvas></center>
 </div>
 
-<div class = "main">
+<div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
 <p id = "burden"></p>
 <p id = "revenue"></p>
 <p id = "conclusion"></p>
-</div>
-
-<center><button class = "reveal_form" id="myb">Evaluate New Inputs</button></center>
-<div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
+  <center><button class = "reveal_form" id="myb">Enter New Inputs</button></center>
   <!-- form for user of website tool to enter values to be used in calculations -->
-  <form action="next.htm" id = "form1" method="GET"> //add style="display:none" back in later
-    <label for="notavailable" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*All questions refer only to figures relating to residential consumers.  Please leave blank any queries for which data is unavailable, or provide an estimate.</label>
+  <form action="next.htm" id = "form1" style="display:none" method="GET">
+    <p>*All questions refer only to figures relating to residential consumers.  Please leave blank any queries for which data is unavailable, or provide an estimate.</p>
     
     
-    <label for="units" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*Additionally, please ensure consistency between units of energy of the same type (for instance, do not alternate between usage of dekatherms and therms for gas-related values in dekatherms)</label>
+    <p>*Additionally, please ensure consistency between units of energy of the same type (for instance, do not alternate between usage of dekatherms and therms for gas-related values in dekatherms)</p>
     
     
-    <label for="money_sign" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*Please enter monetary values in dollars and cents.</label>
+    <p>*Please enter monetary values in dollars and cents.</p>
     
     
-    <label for="money_sign" style="font-size:1.4em; font-family: 'Georgia', 'serif'">*If you do not enter any values, sample data for New York City will be utilized.</label> 
+    <p>*If you do not enter any values, sample data for New York City will be utilized.</p> 
     
     
     
@@ -177,19 +171,54 @@
     <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_sec_high_usage" value=0 name="add_monthly_elec_charge_for_sec_high_usage">
     
     <label for="add_monthly_gas_charge_for_sec_high_usage"><center>Please input any desired additional fixed monthly charge for gas usage for household categories Q4High and Q5Med.</center></label>
-    <input type="number" step = "0.0001" id="add_monthly_gas_charge_for_sec_high_usage" value= 0 name="add_monthly_gas_charge_for_sec_high_usage">
+    <input type="number" class = "entry" step = "0.0001" id="add_monthly_gas_charge_for_sec_high_usage" value= 0 name="add_monthly_gas_charge_for_sec_high_usage">
      
     <label for="benefits"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
-    <input type="number" step = "0.01" id="benefits" value=46.50 name="benefits">
-    <center><button class="switch_page" onclick = "newInputs()">Submit New Results</button></center>
+    <input type="number" class = "entry" step = "0.01" id="benefits" value=46.50 name="benefits">
+    <input type='hidden' name='q' id='sample_keep_or_replace' value=1>
+    <p> If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the first button below.  If you would simply like to compare your most recent results with the website's sample results, you may prefer to press the latter button.</p> 
+    <center><button class="switch_page" id="default_replace">Replace Default Values with Entered Values</button></center> 
+    <center><button class="switch_page" type="button" id = "graph_new">Display New Results in Graph With Previously Obtained Results</button></center>
+    <center><button class="switch_page" id="default_keep">Revert to Default Values(Graph With Result History Will Reset)</button></center>
     </form>
+
 </div>
-<center><button class="switch_page" id = "graph_new">Add New Results to Graph History</button></center> 
 <script language="JavaScript" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script> 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <meta charset="utf-8" />
 <title>Calculated Results</title>
 <script language="JavaScript">
+
+// edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
+var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 0, 0, 0, 0, 0, 0, 46.50, 1];
+
+
+//
+document.getElementById("default_replace").addEventListener("click", replace);
+document.getElementById("default_keep").addEventListener("click", keep);
+
+var default_was_changed = "no";
+
+// value of 0 or 1 is assigned to hidden form field to be passed to next page
+function replace() {
+  document.getElementById("sample_keep_or_replace").value = 0;
+  alert(1);
+  alert(sample);
+  var windowkeys = getKys();
+  var windowvals = getValues(windowkeys);
+  sample = windowvals;
+  alert(sample);
+  alert(document.getElementById("sample_keep_or_replace").value);
+
+}
+
+function keep() {
+  document.getElementById("sample_keep_or_replace").value = 1;
+  alert(document.getElementById("sample_keep_or_replace").value);
+
+}
+
+
 
 // XXXXXXXX 1. lower fixed charge 2. increase block rate xxxxxxxx output how far away you are from 0.06. prompt user to change constraints, give feedback.XXXXXXXXX combinedrm users of severity of problem. xxxxxxxx save scenarios xxxxxxxxxx maybe clue user in as to where most of the issues are and which values to prioritize changing
 
@@ -211,17 +240,21 @@ function getValues(kys) {
     return vals;
 }
 
+// list of default values that will be used if a corresponding value was not typed into the form
+
 // combines the keys and values into one dictionary where each key corresponds to a value
-function makeDictionary(mykeys, vals) {
+function makeDictionary(mykeys, vals, decide) {
     var mykys = mykeys;
     var myvals = vals;
     var ob = {};
-    // list of default values that will be used if a corresponding value was not typed into the form
-    // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-    var sample = [3184496.00, 20.2400, 0.20, 837631, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200, 55700, 94700, 253100, 0, 0, 0, 0, 0, 0, 46.50];
-
-    for (var i = 0; i < mykys.length; i++) {
-        ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
+    if (decide == 1) {
+      for (var i = 0; i < mykys.length; i++) {
+          ob[mykys[i]] = (myvals[i]) ? [parseFloat(myvals[i])] : [parseFloat(sample[i])];
+      }
+    } else {
+      for (var i = 0; i < mykys.length; i++) {
+          ob[mykys[i]] = [parseFloat(myvals[i])];
+      }
     }
     var output = '';
     for (var property in ob) {
@@ -233,7 +266,9 @@ function makeDictionary(mykeys, vals) {
 
 // uses values from dictionary to construct household categories
 
-// 0
+
+// creates household categories with respective mean annual incomes
+
 function hhcategories(ob) {
     var myob = ob;
     var i = 1;
@@ -258,7 +293,9 @@ function hhcategories(ob) {
 
 // values in list "prop" are based off values from Pearson-Tukey approximation method
 
-// 1
+
+// assigns the appropriate Pearson-Tukey distribution values to household categories
+
 function proportion(ob, hhs) {
     var hhtypes = hhs;
     var myob = ob;
@@ -275,7 +312,10 @@ function proportion(ob, hhs) {
     return result1;
 }
 
-// 2
+
+
+// calculates and assigns annual electricity consumption for each household category
+
 function elec_usage_vals(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -294,7 +334,10 @@ function elec_usage_vals(ob, hhs) {
     return result2;
 }
 
-// 3
+
+
+// calculates and assigns annual electricity consumption for each household per household category
+
 function ann_elec_consumption(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -312,13 +355,16 @@ function ann_elec_consumption(ob, hhs) {
 }
 
 
-// 4
+// calculates and assigns annual electricity payment for each household category
+
 function ann_elec_payment_per_hhtype(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
     var elec_households = myob["elec_households"];
     var var_elec_charge = myob["var_elec_charge"];
     var fix_elec_charge = myob["fix_elec_charge"];
+    var add_elec_high = myob["add_monthly_elec_charge_for_high_usage"];
+    var add_elec_sec_high = myob["add_monthly_elec_charge_for_sec_high_usage"];
     var i = 1;
     while (i<=13) {
       hhtypes[i]["elec_payment_by_type"] = hhtypes[i]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge;
@@ -326,11 +372,17 @@ function ann_elec_payment_per_hhtype(ob, hhs) {
       hhtypes[i+2]["elec_payment_by_type"] = hhtypes[i+2]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i+2]["distribution"] * 12 * fix_elec_charge;
       i++;
     } 
+    hhtypes[12]["elec_payment_by_type"] = hhtypes[12]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[12]["distribution"] * 12 * add_elec_sec_high;
+    hhtypes[14]["elec_payment_by_type"] = hhtypes[14]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[14]["distribution"] * 12 * add_elec_sec_high;
+    hhtypes[15]["elec_payment_by_type"] = hhtypes[15]["ann_elec_per_type"] * var_elec_charge + elec_households * hhtypes[i]["distribution"] * 12 * fix_elec_charge + elec_households * hhtypes[15]["distribution"] * 12 * add_elec_high; 
     var result4 = ann_elec_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result4;
 }
 
-// 5
+
+
+// calculates and assigns annual electricity payment for household per household category before benefits
+
 function ann_elec_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -342,13 +394,16 @@ function ann_elec_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
       hhtypes[i+2]["elec_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["elec_payment_by_type"]/(elec_households*hhtypes[i+2]["distribution"]);
       i++;
     } 
+
     var result5 = elec_burden_before_benefits(myob, hhtypes);
     return result5;
 }
 
 
 
-// 6
+
+// calculates and assigns burden from electricity payments for each household category before benefits
+
 function elec_burden_before_benefits(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -365,7 +420,8 @@ function elec_burden_before_benefits(ob, hhs) {
 }
 
 
-// 7
+// calculates and assigns annual gas consumption for each household category
+
 function gas_usage_vals(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -383,7 +439,9 @@ function gas_usage_vals(ob, hhs) {
 }
 
 
-// 8
+
+// calculates and assigns annual gas consumption for each household per household category
+
 function ann_gas_consumption(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -400,25 +458,40 @@ function ann_gas_consumption(ob, hhs) {
 
 
 
-// 9
+// calculates and assigns annual gas payment per household category
+
 function ann_gas_payment_per_hhtype(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
     var gas_households = myob["gas_households"];
     var var_gas_charge = myob["var_gas_charge"];
     var fix_gas_charge = myob["fix_gas_charge"];
+    var add_gas_high = myob["add_monthly_gas_charge_for_high_usage"];
+    var add_gas_sec_high = myob["add_monthly_gas_charge_for_sec_high_usage"];
     var i = 1;
-    while (i<=13) {
+    while (i<=11) {
       hhtypes[i]["gas_payment_by_type"] = (hhtypes[i]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i]["distribution"] * 12 * fix_gas_charge);
       hhtypes[i+1]["gas_payment_by_type"] = (hhtypes[i+1]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+1]["distribution"] * 12 * fix_gas_charge);
       hhtypes[i+2]["gas_payment_by_type"] = (hhtypes[i+2]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+2]["distribution"] * 12 * fix_gas_charge);
+      hhtypes[i+3]["gas_payment_by_type"] = (hhtypes[i+3]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+3]["distribution"] * 12 * fix_gas_charge);
+      hhtypes[i+4]["gas_payment_by_type"] = (hhtypes[i+4]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[i+4]["distribution"] * 12 * fix_gas_charge);
       i++;
     } 
+
+    // upper three consumption categories are recalculated to account for any additional charges imposed due to high consumption
+
+    hhtypes[12]["gas_payment_by_type"] = hhtypes[12]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[12]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[12]["distribution"] * 12 * add_gas_sec_high;
+    hhtypes[14]["gas_payment_by_type"] = hhtypes[14]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[14]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[14]["distribution"] * 12 * add_gas_sec_high;
+    hhtypes[15]["gas_payment_by_type"] = hhtypes[15]["ann_gas_per_type"] * var_gas_charge + gas_households * hhtypes[15]["distribution"] * 12 * fix_gas_charge + gas_households * hhtypes[15]["distribution"] * 12 * add_gas_high; 
     var result9 = ann_gas_payment_per_hh_per_hhtype_before_benefits(myob, hhtypes);
     return result9;
 }
 
-// 10
+
+
+// calculates and assigns annual gas payment for household per household category before benefits
+
+
 function ann_gas_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -429,12 +502,17 @@ function ann_gas_payment_per_hh_per_hhtype_before_benefits(ob, hhs) {
       hhtypes[i+1]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i+1]["gas_payment_by_type"]/(gas_households*hhtypes[i+1]["distribution"]);
       hhtypes[i+2]["gas_payment_by_hh_per_type_no_ben"] = hhtypes[i+2]["gas_payment_by_type"]/(gas_households*hhtypes[i+2]["distribution"]);
       i++;
-    }    
-    var result10 = gas_burden_before_benefits(myob, hhtypes);
+    }  
+    result10 = gas_burden_before_benefits(myob, hhtypes);
     return result10;
 }
 
-// 11
+
+
+
+// calculates and assigns burden from gas payments for each household category before benefits
+
+
 function gas_burden_before_benefits(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -449,7 +527,15 @@ function gas_burden_before_benefits(ob, hhs) {
     return result11; 
 }   
 
-// 12
+
+
+
+
+
+// calculates and assigns combined utility payment for each household category after benefits
+
+
+
 function ann_combined_payment_per_hh_per_hhtype_after_benefits(ob, hhs) {
     var myob = ob;
     var hhtypes = hhs;
@@ -472,8 +558,14 @@ function ann_combined_payment_per_hh_per_hhtype_after_benefits(ob, hhs) {
     return result12;
 }
 
-// 13
+
+
+
+
+// calculates and assigns combined utility cost burden after any benefits, for each household category
+
 function combined_cost_burden_after_benefits(ob, hhs) {
+    
     var myob = ob;
     var hhtypes = hhs;
     var i = 1;
@@ -511,11 +603,13 @@ function combined_cost_burden_after_benefits(ob, hhs) {
 
 
 
+// allows button to reveal form when pressed
 
 function newinputs() {
   document.getElementById('form1').style.display = 'block';
-  var sample = myvals; 
 }
+
+
 
 function getRevenue(mydict) {
    var hhtypes = mydict;
@@ -532,9 +626,12 @@ function getRevenue(mydict) {
 }
 
 function comma_thousands(n) {
-    return (n).toLocaleString()+'0';
+    return (n).toLocaleString();
 }
 
+
+
+// outputs text suggestions based on recent results
 
 function calcVerdict(final_revenue, ob, hhs) {
   var revenue = final_revenue;
@@ -546,22 +643,22 @@ function calcVerdict(final_revenue, ob, hhs) {
   document.getElementById("revenue").innerHTML = "";
   document.getElementById("conclusion").innerHTML = "";
   if (hhtypes[3]["combined_cost_burden_after_benefits"] > 0.06) {
-    document.getElementById("burden").innerHTML = `Category Q1High experiences a cost burden of ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*10)/10)*100)+'%'}, which is ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]/0.06 *100) *1000) / 1000) +'%'} of the upper threshold for energy cost burden (6% of annual household income after taxes).`;
+    document.getElementById("burden").innerHTML = `Category Q1High experiences a cost burden of ${((Math.round(hhtypes[3]["combined_cost_burden_after_benefits"]*1000)/1000)*100)+'%'}, which exceeds the upper threshold for energy cost burden (6% of annual household income after taxes).`;
     eval1.push(1);
   }
   // maybe implement function that calculates value needed when all other values stay constant, for multiple values
   if (revenue < myob["total_expense"]) {
-    document.getElementById("revenue").innerHTML += `The lower threshold for annual revenue ($${comma_thousands(Math.round(myob["total_expense"]*100)/100)}) has not been met; the current annual revenue (rounded to the nearest dollar) is $${comma_thousands(Math.round(revenue))}.` + "" + `You may want to focus on increasing your entered charges, while potentially decreasing your entered rates or increasing your entered benefits.` + ""; 
+    document.getElementById("revenue").innerHTML += `The lower threshold for annual revenue ($${comma_thousands(Math.round(myob["total_expense"]*100)/100)}) has not been met; the current annual revenue rounded to the nearest dollar is $${comma_thousands(Math.round(revenue))}.` + "" + `You may want to focus on increasing your entered charges, while potentially decreasing your entered rates or increasing your entered benefits.` + ""; 
     if (eval1[0] == 1) {
       document.getElementById("conclusion").innerHTML += "You may want to focus on increasing benefits and charges simultaneously, since the current cost burden exceeds allowed limits and the current revenue does not meet the target minimum." + "" + `The minimum benefits required for the condition where the target minimum revenue is met would be xxx in total.` + "";
     }
   } else if (revenue > myob["maximum_revenue"]) {
-    document.getElementById("revenue").innerHTML += `The current annual revenue (rounded to the nearest dollar) is ($${comma_thousands((Math.round(revenue)))}), which surpasses the specified upper threshold for annual revenue ($${comma_thousands(myob["maximum_revenue"])}).` + "";
+    document.getElementById("revenue").innerHTML += `The current annual revenue rounded to the nearest dollar is $${comma_thousands(Math.round(revenue))}, which surpasses the specified upper threshold for annual revenue ($${comma_thousands(myob["maximum_revenue"])}).` + "";
     if (eval1[0] == 1) {
       document.getElementById("conclusion").innerHTML += "You may currently want to focus on lowering charges since both cost burden and revenue exceed allowed limits.";
     }
   } else {
-    document.getElementById("revenue").innerHTML += `The current annual revenue (rounded to the nearest dollar) is $${comma_thousands(Math.round(revenue))} - the minimum and maximum specified bounds for revenue have been satisfied.`;
+    document.getElementById("revenue").innerHTML += `The current annual revenue rounded to the nearest dollar is $${comma_thousands(Math.round(revenue))} - the minimum and maximum specified bounds for revenue have been satisfied.`;
     if (eval1[0] == 1) {
       document.getElementById("conclusion").innerHTML += "You may want to focus on lowering charges since the present cost burden for lower-income households still exceeds allowed limits.";
     } 
@@ -571,13 +668,22 @@ function calcVerdict(final_revenue, ob, hhs) {
   }
 }
 
+
 var mykeys = getKys();
-var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 0, 0, 0, 0, 0, 0, 46.50];
 var myvals = getValues();
-var dict = makeDictionary(mykeys, sample);
-var newdict = makeDictionary(mykeys, myvals);
+if (myvals[myvals.length-1] == 0) {
+  alert(90);
+  sample = myvals;
+  alert(JSON.stringify(sample));
+  var dict = makeDictionary(mykeys, sample);
+  var newdict = makeDictionary(mykeys, sample);
+} else {
+  var dict = makeDictionary(mykeys, sample);
+  var newdict = makeDictionary(mykeys, myvals);
+}
 
 document.getElementById("myb").addEventListener("click", newinputs);
+
 
 var gas = dict[0];
 var elec = dict[1];
@@ -590,6 +696,9 @@ var elec_round = elec.map(i => Math.round(parseFloat(i)*100)/100);
 var comb_round = comb.map(i => Math.round(parseFloat(i)*100)/100); //XXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 var rev_i_round = rev_i.map(i => Math.round(parseFloat(i)*100)/100);
 var rev_f_round = rev_f.map(i => Math.round(parseFloat(i)*100)/100);
+
+
+calcVerdict(rev_f_round[0]+rev_f_round[1], newdict[4], newdict[5]);
 
 var clicks = 0;
 
@@ -637,9 +746,11 @@ $(document).ready(function () {
 });
 
 
+// adds new bar portraying utility cost burden to chart of results obtained from recent entries
+
+
 function newBurdenBar(combined) {
-  var labels = ["Q1Low", "Q1Med", "Q1High", "Q2Low", "Q2Med", "Q2High", "Q3Low", "Q3Med", "Q3High", "Q4Low", "Q4Med", "Q4High", "Q5Low", "Q5Med", "Q5High"];
-    
+  var labels = ["Q1Low", "Q1Med", "Q1High", "Q2Low", "Q2Med", "Q2High", "Q3Low", "Q3Med", "Q3High", "Q4Low", "Q4Med", "Q4High", "Q5Low", "Q5Med", "Q5High"];  
   var data = [
     [combined[0], combined[1], combined[2], combined[3], combined[4], combined[5], combined[6], combined[7], combined[8], combined[9], combined[10], combined[11], combined[12], combined[13], combined[14]]
   ];  
@@ -647,26 +758,30 @@ function newBurdenBar(combined) {
   var comb_set = {
     label: "Combined Cost Burden After Adjustments: Test " + `${clicks+1}`,
     data: data[0],
-    backgroundColor: "rgb(110, 50, 255)",
+    backgroundColor: "rgb(110, 0, 215)",
     stack: "Stack" + `${clicks*2+1}`,
   };
   var index = 0;   //XXXXXXXXXXXXX
-  alert(JSON.stringify(parseFloat(updatedburdenChart.data.datasets[2].data[0])));
-  alert(1);
-  alert(JSON.stringify(updatedburdenChart.data.datasets[2].data));
   updatedburdenChart.config.data.datasets.push(comb_set);
   updatedburdenChart.update();
 }
 
+
+
 // Expands Revenue Data
+
 function expandDataArrays(chart, data) {
-    var label = "Test " + `${clicks + 1}`;
+    var label = `${clicks + 1}`;
     chart.data.labels.push(label);
     chart.data.datasets[0].data.push(data[1]);
     chart.data.datasets[1].data.push(data[0]);
     chart.data.datasets[2].data.push(data[1]+data[0]);
     chart.update();
 }
+
+
+
+// chart for comparing default and most recently entered result
 
 var ctx = document.getElementById("burdenChart");
 Chart.defaults.global.defaultFontFamily = "Georgia, script";
@@ -701,7 +816,7 @@ var burdenchart = new Chart(ctx, {
       },
       {
         label: "Combined Cost Burden After Adjustments: Most Recent Test",
-        backgroundColor: "rgb(110, 0, 255)",
+        backgroundColor: "rgb(0, 110, 255)",
         borderColor: "rgb(255, 99, 132)",
         stack: "Stack 2",
         data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
@@ -759,13 +874,18 @@ var burdenchart = new Chart(ctx, {
     }
   }
 });
+
+
+
+// chart for comparing default and most recently obtained revenue
+
 var myrev = document.getElementById("revChart");
 var revenuechart = new Chart(myrev, {
   // The type of chart we want to create
   type: 'bar',
   // The data for our dataset
   data: {
-    labels: ["Default Test", "Most Recent Test"], //let user modify default?? existing rates vary?? XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+    labels: ["Default", "Most Recent"], //let user modify default?? existing rates vary?? XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
     datasets: [{
         label: "Annual Gas Revenue",
         fontSize: 20,
@@ -783,7 +903,7 @@ var revenuechart = new Chart(myrev, {
       },
       {
         label: "Total Annual Revenue",
-        backgroundColor: "rgb(110, 0, 255)",
+        backgroundColor: "rgb(0, 110, 255)",
         borderColor: "rgb(255, 99, 132)",
         stack: "Stack 1",
         data: [parseFloat(rev_i_round[0]) + parseFloat(rev_i_round[1]), parseFloat(rev_f_round[0]) + parseFloat(rev_f_round[1])]
@@ -818,7 +938,7 @@ var revenuechart = new Chart(myrev, {
         stacked: true,
         scaleLabel: {
           display: true,
-          labelString: "Time With Respect to Application of Modifications/Benefits",
+          labelString: "Test",
           fontSize: 20,
         },
         ticks: {
@@ -847,6 +967,9 @@ var revenuechart = new Chart(myrev, {
   }
 });
 
+
+// chart for comparing recent results for utility cost burden
+
 var btx = document.getElementById("burdenHistory");
 var updatedburdenChart = new Chart(btx, {
   type: 'bar',
@@ -855,40 +978,40 @@ var updatedburdenChart = new Chart(btx, {
         datasets: [{
             label: "Default Gas Cost Burden",
             fontSize: 20,
-            backgroundColor: "rgb(50, 40, 120)",
+            backgroundColor: "rgb(50, 40, 80)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
             data: [gas_round[0], gas_round[1], gas_round[2], gas_round[3], gas_round[4], gas_round[5], gas_round[6], gas_round[7], gas_round[8], gas_round[9], gas_round[10], gas_round[11], gas_round[12], gas_round[13], gas_round[14]]
           },
           {
             label: "Default Electricity Cost Burden",
-            backgroundColor: "rgb(50, 40, 200)",
+            backgroundColor: "rgb(50, 40, 160)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 0",
             data: [elec_round[0], elec_round[1], elec_round[2], elec_round[3], elec_round[4], elec_round[5], elec_round[6], elec_round[7], elec_round[8], elec_round[9], elec_round[10], elec_round[11], elec_round[12], elec_round[13], elec_round[14]]},
           {
             label: "Default Combined Cost Burden",
             fontSize: 20,
-            backgroundColor: "rgb(50, 0, 255)",
+            backgroundColor: "rgb(50, 0, 215)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 1",
             data: [gas_round[0]+elec_round[0], gas_round[1]+elec_round[1], gas_round[2]+elec_round[2], gas_round[3]+elec_round[3], gas_round[4]+elec_round[4], gas_round[5]+elec_round[5], gas_round[6]+elec_round[6], gas_round[7]+elec_round[7], gas_round[8]+elec_round[8], gas_round[9]+elec_round[9], gas_round[10]+elec_round[10], gas_round[11]+elec_round[11], gas_round[12]+elec_round[12], gas_round[13]+elec_round[13], gas_round[14]+elec_round[14]]
           },
           {
             label: "Combined Cost Burden After Adjustments: Test 1",
-            backgroundColor: "rgb(110, 0, 255)",
+            backgroundColor: "rgb(0, 110, 215)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 2",
             data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]}
         ]
       },
-  options: {
+    options: {
     barValueSpacing: 50,
     responsive: true,
     maintainAspectRatio: false,
     title: {
       display: true,
-      text: "Utility Cost Burden (% of Taxed Annual Household Income Paid Towards Utilities) Before vs. After Rate Modifications/Benefits",
+      text: "Utility Cost Burden (% of Taxed Annual Household Income Paid Towards Utilities) Before vs. After Rate Modifications/Benefits: Test History",
       fontSize: 25,
     },
     legend: {
@@ -934,31 +1057,36 @@ var updatedburdenChart = new Chart(btx, {
   }
 });
 
+
+
+
+// chart for comparing recent results for revenue
+
 var rtx = document.getElementById("revenueHistory");
 var updatedrevChart = new Chart(rtx, {
   // The type of chart we want to create
   type: 'bar',
   // The data for our dataset
   data: {
-    labels: ["Initial", "Test 1"],
+    labels: ["Default", "1"],
     datasets: [{
         label: "Annual Gas Revenue",
         fontSize: 20,
-        backgroundColor: "rgb(50, 40, 120)",
+        backgroundColor: "rgb(50, 40, 80)",
         borderColor: "rgb(255, 99, 132)",
         stack: "Stack 0",
         data: [parseFloat(rev_i_round[1]), parseFloat(rev_f_round[1])]
       },
       {
         label: "Annual Electricity Revenue",
-        backgroundColor: "rgb(50, 40, 200)",
+        backgroundColor: "rgb(50, 40, 160)",
         borderColor: "rgb(255, 99, 132)",
         stack: "Stack 0",
         data: [parseFloat(rev_i_round[0]), parseFloat(rev_f_round[0])]
       },
       {
         label: "Total Annual Revenue",
-        backgroundColor: "rgb(110, 0, 255)",
+        backgroundColor: "rgb(0, 110, 215)",
         borderColor: "rgb(255, 99, 132)",
         stack: "Stack 1",
         data: [parseFloat(rev_i_round[0]) + parseFloat(rev_i_round[1]), parseFloat(rev_f_round[0]) + parseFloat(rev_f_round[1])]
@@ -971,7 +1099,7 @@ var updatedrevChart = new Chart(rtx, {
     maintainAspectRatio: false,
     title: {
       display: true,
-      text: "Annual Revenue Before vs. After Modifications/Benefits",
+      text: "Annual Revenue Before vs. After Modifications/Benefits: Test History",
       fontSize: 25,
     },
     legend: {
@@ -993,7 +1121,7 @@ var updatedrevChart = new Chart(rtx, {
         stacked: true,
         scaleLabel: {
           display: true,
-          labelString: "Time With Respect to Application of Modifications/Benefits",
+          labelString: "Test",
           fontSize: 20,
         },
         ticks: {
@@ -1021,10 +1149,19 @@ var updatedrevChart = new Chart(rtx, {
     }
   }
 });
+ 
 
-var revenuesum = parseFloat(check[0]) + parseFloat(check[1]);
-calcVerdict(revenuesum, newdict[4], newdict[5]);
 
+
+
+
+
+
+
+
+
+
+// function for adding data to chart
 
 function addData(chart, label, color, data) {
     chart.data.datasets.push({
@@ -1034,8 +1171,8 @@ function addData(chart, label, color, data) {
     });
     chart.update();
 }
-
-</script>
+//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXFIGURE OUT how to maybe suggest separator based on expenditure data and given revenue and rate values
+</script> 
 </head>
 <body>
 </body>
