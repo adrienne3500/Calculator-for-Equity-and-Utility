@@ -12,8 +12,6 @@
 <body style="background-color: rgb(0,0,90);">
 
 <center>
-<button class = "link" onclick="document.location = 'https://statisticalatlas.com/place/New-York/New-York/Household-Income'">Source of Sample Income Data for New York City</button>
-<button class = "link" onclick="document.location = 'https://www.bls.gov/cex/2018/aggregate/quintile.pdf'">Source of Sample Expenditure Data</button>
 <button class = "link" onclick="document.location = 'Introduction.htm'">View Documentation</button>
 </center>
 
@@ -21,7 +19,7 @@
 <h1><center>Calculator for Equity: Utility Pricing for the Residential Sector</center></h1>
 </div>
 
-// table explaining household categories
+
 <table class="center" id="mytable">
   <tr>
   <th colspan="5" style="background-color: rgb(50, 40, 200)">Household Categories</th>
@@ -112,7 +110,7 @@
     <input type="number" step = "0.01" id="fix_gas_charge" value=25.00 name="fix_gas_charge">
     
     <label for="var_gas_charge"><center>Please provide the sum of the average variable charge per unit for gas.</center></label>
-    <input type="number" step = "0.01" id="var_gas_charge" value=1.239329 name="var_gas_charge">
+    <input type="number" step = "0.01" id="var_gas_charge" value=1.24 name="var_gas_charge">
     
     <label for="avg_elec_consumption"><center>Please provide the average annual electricity consumption.</center></label>
     <input type="number" step = "0.01" id="avg_elec_consumption" value=3600 name="avg_elec_consumption">
@@ -129,7 +127,7 @@
     
     
     <label for="elec_usage_ratio"><center>Please provide a relative demand factor for defining the difference between low, medium, and high electric usage. *If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions).</center></label>
-    <input type="number" step = "0.001" id="elec_usage_ratio" value=1.15900 name="elec_usage_ratio">
+    <input type="number" step = "0.001" id="elec_usage_ratio" value=1.159 name="elec_usage_ratio">
     <center><p style="font-size:1.3em">"*If, for instance, the number 2 is provided, the usage will double from lower household category to higher household category (see table for household category definitions)."</p></center>
     
     
@@ -156,10 +154,10 @@
     <input type="number" id="quintile_five" value=253100 name="quintile_five">
     
     <label for="multiplier_for_fix_charge"><center>Please input the number by which you want to multiply the current fixed charges in order to decrease them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_fix_charge" value=1 name="multiplier_for_fix_charge">
+    <input type="number" step = "0.00001" id="multiplier_for_fix_charge" value=1 name="multiplier_for_fix_charge">
     
     <label for="multiplier_for_var_charge"><center>Please input the number by which you want to multiply the current variable charges in order to increase them.</center></label>
-    <input type="number" step = "0.001" id="multiplier_for_var_charge" value=1 name="multiplier_for_var_charge">
+    <input type="number" step = "0.00001" id="multiplier_for_var_charge" value=1 name="multiplier_for_var_charge">
     
     <label for="add_monthly_elec_charge_for_high_usage"><center>Please input any desired additional fixed monthly charge for electricity usage for household category Q5High.</center></label>
     <input type="number" step = "0.0001" id="add_monthly_elec_charge_for_high_usage" value=0 name="add_monthly_elec_charge_for_high_usage">
@@ -192,7 +190,7 @@
 <script language="JavaScript">
 
 // edit: below values come in this order: number of households using electricity, fixed charge for electricity, variable charge for electricity, fixed charge for gas, variable charge for gas, average annual usage of electricity for all households, average annual usage of gas for all households, average annual income for first income quintile, average annual income for second income quintile, average annual income for third income quintile, average annual income for fourth income quintile, average annual income for fifth income quintile, averag equantitiy of federal utility benefits
-var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.239329, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.15900, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 1, 1, 0, 0, 0, 0, 46.50, 1];
+var sample = [3184496.00, 20.2400, 0.20, 837631.00, 25.00, 1.24, 3600, 1000.00, 4000000000.00, 2809850666.67, 1.159, 1.200, 9500, 29200.00, 55700.00, 94700.00, 253100.00, 1, 1, 0, 0, 0, 0, 46.50, 1];
 
 
 //
@@ -207,14 +205,11 @@ function replace() {
   var windowkeys = getKys();
   var windowvals = getValues(windowkeys);
   sample = windowvals;
-  alert(document.getElementById("sample_keep_or_replace").value);
 
 }
 
 function keep() {
   document.getElementById("sample_keep_or_replace").value = 1;
-  alert(document.getElementById("sample_keep_or_replace").value);
-
 }
 
 
@@ -226,7 +221,6 @@ function getKys() {
     var s = window.location.search.replace(/[0-9]/g, ",").replace(/\W/ig, ',').replace(/,+/g,',');
     var s = s.replace("one", "1").replace("two", "2").replace("three", "3").replace("four", "4").replace("five", "5");
     var kys = s.substr(1,s.length-2).split(',');
-    alert(kys);
     return kys;
 }
 
@@ -261,6 +255,7 @@ function makeDictionary(mykeys, vals, decide) {
         output += property + ': ' + ob[property]+'; ';
     }
     var myresult = hhcategories(ob);
+    alert(ob["benefits"]);
     return myresult;
 }
 
@@ -667,37 +662,42 @@ function calcVerdict(final_revenue, ob, hhs) {
       document.getElementById("conclusion").innerHTML += "You may want to focus on lowering charges since the present cost burden for lower-income households still exceeds allowed limits.";
     } 
   } 
-  if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"]){ 
+  if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"] && revenue <= myob["maximum_revenue"]){ 
     document.getElementById("conclusion").innerHTML += "All constraints have been met!";
   }
 }
 
+var dict = [];
+var newdict = [];
 
 var mykeys = getKys();
 var myvals = getValues();
 if (myvals[myvals.length-1] == 0) {
-  alert(90);
   sample = myvals;
-  alert(JSON.stringify(sample));
-  var dict = makeDictionary(mykeys, sample);
-  var newdict = makeDictionary(mykeys, sample);
+  dict = makeDictionary(mykeys, sample);
+  newdict = dict;
+  alert(JSON.stringify(newdict));
+
 } else {
-  var dict = makeDictionary(mykeys, sample);
-  var newdict = makeDictionary(mykeys, myvals);
+  dict = makeDictionary(mykeys, sample);
+  newdict = makeDictionary(mykeys, myvals);
 }
-
-document.getElementById("myb").addEventListener("click", newinputs);
-
-
 var gas = dict[0];
+alert(1);
+alert(gas);
 var elec = dict[1];
+alert(elec);
 var comb = newdict[2];
 var rev_i = dict[3];
 var rev_f = newdict[3];
 
+document.getElementById("myb").addEventListener("click", newinputs);
+
+
+
 var gas_round = gas.map(i => Math.round(parseFloat(i)*100)/100);
 var elec_round = elec.map(i => Math.round(parseFloat(i)*100)/100);
-var comb_round = comb.map(i => Math.round(parseFloat(i)*100)/100); //XXXXXXXXXXXXXxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+var comb_round = comb.map(i => Math.round(parseFloat(i)*100)/100); //XXXXXXXX
 var rev_i_round = rev_i.map(i => Math.round(parseFloat(i)*100)/100);
 var rev_f_round = rev_f.map(i => Math.round(parseFloat(i)*100)/100);
 
@@ -708,6 +708,7 @@ var clicks = 0;
 
 $(document).ready(function () {
   $("#graph_new").click(function(){
+    alert(8);
     var newob = {};
     $.each($("#form1").serializeArray(), function (i, field) {
         if (field.name == "quintile_one") {
@@ -765,7 +766,6 @@ function newBurdenBar(combined) {
     backgroundColor: "rgb(110, 0, 215)",
     stack: "Stack" + `${clicks*2+1}`,
   };
-  var index = 0;   //XXXXXXXXXXXXX
   updatedburdenChart.config.data.datasets.push(comb_set);
   updatedburdenChart.update();
 }
@@ -816,7 +816,7 @@ var burdenchart = new Chart(ctx, {
       backgroundColor: "rgb(50, 0, 255)",
       borderColor: "rgb(255, 99, 132)",
       stack: "Stack 1",
-      data: [gas_round[0]+elec_round[0], gas_round[1]+elec_round[1], gas_round[2]+elec_round[2], gas_round[3]+elec_round[3], gas_round[4]+elec_round[4], gas_round[5]+elec_round[5], gas_round[6]+elec_round[6], gas_round[7]+elec_round[7], gas_round[8]+elec_round[8], gas_round[9]+elec_round[9], gas_round[10]+elec_round[10], gas_round[11]+elec_round[11], gas_round[12]+elec_round[12], gas_round[13]+elec_round[13], gas_round[14]+elec_round[14]]
+      data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
       },
       {
         label: "Combined Cost Burden After Adjustments: Most Recent Test",
@@ -999,7 +999,7 @@ var updatedburdenChart = new Chart(btx, {
             backgroundColor: "rgb(50, 0, 215)",
             borderColor: "rgb(255, 99, 132)",
             stack: "Stack 1",
-            data: [gas_round[0]+elec_round[0], gas_round[1]+elec_round[1], gas_round[2]+elec_round[2], gas_round[3]+elec_round[3], gas_round[4]+elec_round[4], gas_round[5]+elec_round[5], gas_round[6]+elec_round[6], gas_round[7]+elec_round[7], gas_round[8]+elec_round[8], gas_round[9]+elec_round[9], gas_round[10]+elec_round[10], gas_round[11]+elec_round[11], gas_round[12]+elec_round[12], gas_round[13]+elec_round[13], gas_round[14]+elec_round[14]]
+            data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
           },
           {
             label: "Combined Cost Burden After Adjustments: Test 1",
@@ -1153,11 +1153,6 @@ var updatedrevChart = new Chart(rtx, {
     }
   }
 });
- 
-
-
-
-
 
 
 
@@ -1175,7 +1170,7 @@ function addData(chart, label, color, data) {
     });
     chart.update();
 }
-//XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXFIGURE OUT how to maybe suggest separator based on expenditure data and given revenue and rate values
+//FIGURE OUT how to maybe suggest separator based on expenditure data and given revenue and rate values
 </script> 
 </head>
 <body>
