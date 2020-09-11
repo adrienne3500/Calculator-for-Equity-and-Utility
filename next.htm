@@ -68,9 +68,9 @@
 
 <div class = "main">
 <center><canvas id="burdenChart" width="500" height="500"></canvas></center>
-<center><canvas id="revChart" width="500" height="500"></canvas></center>
-<center><canvas id="burdenHistory" width="400" height="400"></canvas></center>
-<center><canvas id="revenueHistory" width="500" height="500"></canvas></center>
+<center><canvas id="revChart" width="500" height="700"></canvas></center>
+<center><canvas id="burdenHistory" width="500" height="500"></canvas></center>
+<center><canvas id="revenueHistory" width="500" height="700"></canvas></center>
 </div>
 
 <div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
@@ -174,12 +174,12 @@
     <label for="benefits"><center>Please input the average monthly utility benefits for residential consumers who receive said benefits.</center></label>
     <input type="number" class = "entry" step = "0.01" id="benefits" value=46.50 name="benefits">
     <input type='hidden' name='q' id='sample_keep_or_replace' value=1>
-    <p> If you would like to replace the existing default values with your most recently entered values, you may want to press the first button. </p>
-    <p>If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the second button below.</p>
+    <p>If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the first button below.</p>
+    <p>If you would like to replace the existing default values with your most recently entered values, you may want to press the second button. </p>
     <p>If you would simply like to compare your most recent results with the website's sample results, you may prefer to press the last button.</p> 
-    <center><button class="switch_page" id="default_replace">Replace Default Values with Entered Values</button></center> 
     <center><button class="switch_page" type="button" id = "graph_new">Display New Results in Graph With Previously Obtained Results</button></center>
-    <center><button class="switch_page" id="default_keep">Revert to Default Values (Graph With Result History Will Reset)</button></center>
+    <center><button class="switch_page" id="default_replace">Replace Default Values with Entered Values (Graph With Result History Will Reset)</button></center> 
+    <center><button class="switch_page" id="default_keep">Revert to Original Default Values (Graph With Result History Will Reset)</button></center>
     </form>
 
 </div>
@@ -761,10 +761,10 @@ function newBurdenBar(combined) {
   ];  
   updatedburdenChart.config.data.labels = labels;
   var comb_set = {
-    label: "Combined Cost Burden After Adjustments: Test " + `${clicks+1}`,
+    label: "Combined Cost Burden After Adjustments: Test " + `${clicks}`,
     data: data[0],
     backgroundColor: "rgb(110, 0, 215)",
-    stack: "Stack" + `${clicks*2+1}`,
+    stack: "Stack" + `${clicks}`,
   };
   updatedburdenChart.config.data.datasets.push(comb_set);
   updatedburdenChart.update();
@@ -811,20 +811,13 @@ var burdenchart = new Chart(ctx, {
         data: [elec_round[0], elec_round[1], elec_round[2], elec_round[3], elec_round[4], elec_round[5], elec_round[6], elec_round[7], elec_round[8], elec_round[9], elec_round[10], elec_round[11], elec_round[12], elec_round[13], elec_round[14]]
       },
       {
-      label: "Default Combined Cost Burden",
+      label: "Default Combined Cost Burden After Benefits and Any Rate Modifications",
       fontSize: 20,
       backgroundColor: "rgb(50, 0, 255)",
       borderColor: "rgb(255, 99, 132)",
       stack: "Stack 1",
       data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
       },
-      {
-        label: "Combined Cost Burden After Adjustments: Most Recent Test",
-        backgroundColor: "rgb(0, 110, 255)",
-        borderColor: "rgb(255, 99, 132)",
-        stack: "Stack 2",
-        data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
-      }
     ]
   },
   options: {
@@ -1001,12 +994,6 @@ var updatedburdenChart = new Chart(btx, {
             stack: "Stack 1",
             data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]
           },
-          {
-            label: "Combined Cost Burden After Adjustments: Test 1",
-            backgroundColor: "rgb(0, 110, 215)",
-            borderColor: "rgb(255, 99, 132)",
-            stack: "Stack 2",
-            data: [comb_round[0], comb_round[1], comb_round[2], comb_round[3], comb_round[4], comb_round[5], comb_round[6], comb_round[7], comb_round[8], comb_round[9], comb_round[10], comb_round[11], comb_round[12], comb_round[13], comb_round[14]]}
         ]
       },
     options: {
