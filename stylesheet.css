@@ -174,12 +174,16 @@
       width: 100%;
     }
 
-    .main {
+    .main {      
       border-radius: 50px;
       background-color: rgb(70, 200, 255);
       padding: 50px;
       margin-top: 100px;
       margin-bottom: 100px;
+      width: 80%; 
+      margin: 100px auto; 
+      max-width: 1200px; 
+      overflow-x:auto;
     }
 
     #options_bar {
