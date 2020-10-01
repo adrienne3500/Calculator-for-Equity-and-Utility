@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en-us">
 <meta charset="UTF-8"/>
@@ -181,6 +180,7 @@
     <p>If you would like to see how the combined cost burden for each household category and the revenue obtained using your newly entered values measure up against the results calculated using previous values, you may want to press the first button below.</p>
     <p>If you would like to replace the existing default values with your most recently entered values, you may want to press the second button. </p>
     <p>If you would simply like to compare your most recent results with the website's sample results, you may prefer to press the last button.</p> 
+    <p>If you would like to be able to save the first graph, which shows the results of the values you have most recently set as default, you may want to bookmark this page or save the URL of this page.</p> 
     <center><button class="switch_page" type="button" id = "graph_new">Display New Results in Graph With Previously Obtained Results</button></center>
     <center><button class="switch_page" id="default_replace">Replace Default Values with Entered Values (Graph With Result History Will Reset)</button></center> 
     <center><button class="switch_page" id="default_keep">Revert to Original Default Values (Graph With Result History Will Reset)</button></center>
@@ -666,7 +666,7 @@ function calcVerdict(final_revenue, ob, hhs) {
     } 
   } 
   if (hhtypes[3]["combined_cost_burden_after_benefits"] <= 0.06 && revenue >= myob["total_expense"] && revenue <= myob["maximum_revenue"]){ 
-    document.getElementById("conclusion").innerHTML += "All constraints have been met!";
+    document.getElementById("conclusion").innerHTML += "All constraints have been met!  You may want to bookmark this page or save the URL of this page if you would like to see these results again.";
   }
 }
 
