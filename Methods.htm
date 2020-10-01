@@ -1,0 +1,392 @@
+
+<!DOCTYPE html>
+<html lang="en-us">
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="author" content="Adrienne Cheung">
+<meta name="description" content="Calculator for Equity and Utility">
+<title>Methods</title>
+<head>
+<link rel="stylesheet" type="text/css" href="stylesheet.css">
+</head>
+<body id="documentation">
+<br>
+<p><b>Methods</b></p>
+<p>To maximize utility provider profit while constraining low-income customers’ payments for electricity and gas to at most 6% of household income after taxes, additional charges, Home Energy Assistance Program (HEAP) benefits, and values for modifying variable and fixed charges were tested and adjusted through creation and utilization of a Microsoft Excel program.  Constant variables utilized include fixed and variable charges for gas and electricity (obtained by consulting Con Edison’s sample charges).
+</p><p>The function f(x, y) = ( ∑Ai*((gv*gh*pi*gi + gh*pi*gf ) + (ev*eh*pi*ei + eh*pi*gf ))) – C represents the profit for the utility provider, where A represents a household category, i indexes the fifteen household categories considered (household categories will be discussed in the following paragraphs), gv = variable charge per unit of gas, gh = total number of households consuming gas, pi = the Pearson-Tukey proportion of gh assigned to household category Ai, gi = gas consumption for household category Ai, gf = fixed charge for gas consumption, ev = variable charge per unit of electricity, eh = total number of households consuming electricity, pi = the Pearson-Tukey proportion of eh assigned to household category Ai, ei = electricity consumption for household category Ai, ef = fixed charge for electricity consumption, and C = the total cost of generation and distribution of utility.
+</p><p>The function f(x,y) = ((ev * ei *+ ef) + (gv * gi *+ gf) – b)/(ii) represents utility cost burden for household category Ai, where b = the quantity of utility benefits for household category Ai and ii = the mean income for the quintile in which household category Ai  lies.
+</p><p>Due to a need to capture variations in income and how they correspond with consumption of gas and electricity – households with higher incomes may be more likely to consume higher levels of electricity and gas than households with lower incomes might be - fifteen categories have been created to represent the intersections of the City’s household income quintiles with three different levels of utility consumption.
+</p><p>Within each income quintile, “’low”, “medium”, and “high” annual electric use are separated by a constant multiplier, which may be modified.  With each individual increase in quintile of household income, the consumption value for each household category increases by the previously described constant multiplier.  The multiplier values for electricity and gas consumption upon which we have settled, which may be modified by whoever uses the program, were obtained while taking into account three main factors.  
+</p><p>The first factor: the average monthly electricity charges for a New York City residential customer are described for a customer consuming 300 kWh by Consolidated Edison, Inc., the only provider of electricity to households in New York City[11], and average gas charges for a New York City residential customer are described for a customer consuming 1000 kWh annually[13]. The second factor:  data has been published regarding the share of annual aggregate expenditures for electricity and gas from each income quintile by the U.S. Bureau of Labor Statistics[5].  The third factor: we have been considering the distribution across low, medium, and high electricity usage to be 0.185, 0.63, and 0.185, respectively, according to the Pearson-Tukey approximation method.  
+</p><p>The Pearson-Tukey discrete approximation method – see Appendix – was used to estimate overall energy usage and revenue for each of the five quintiles of income based on median, 5th percentile and 95th percentile values of consumption.
+</p><p>The values for low, medium, and high annual electric and gas consumption in each category were set so the sum of the low, medium, and high usage electricity or gas values for each income quintile corresponded with each income quintile’s share of annual aggregate electricity or gas expenditures.  The results of these efforts are presented in Tables 3 and 4 at the end of this section. 
+</p><p>It must be taken into account that data procured for the average annual residential electricity usage for New York City, published by the Mayor’s Office of Sustainability in 2016[7], was found to differ from the annual electricity delivered for residential and religious customers according to Consolidated Edison’s 2019 Annual Report – the former being 15,448,546,032 kWh and the latter calculated as being 10,560,000,000 kWh.  Consolidated Edison’s data is chosen over the Office’s data for the sake of consistency of data usage – Consolidated Edison’s data are used consistently throughout the evaluation.
+</p><p>The function f(x,y) = ((ev * ei *+ ef) + (gv * gi *+ gf) – b) represents the payment made by a household in household category Ai, where A represents a household category, i indexes the 15 household categories considered, gv = variable charge per unit of gas, gi = gas consumption for household category Ai, gf = fixed charge for gas consumption, ev = variable charge per unit of electricity, ei = electricity consumption for household category Ai, and ef = fixed charge for electricity consumption, while b = the quantity of HEAP utility benefits for household category Ai.
+</p><p>HEAP benefits are distributed to low income families, who are defined by New York as those making under 200% of the Federal Poverty Level[4] (see Appendix).   As the lowest income quintile falls under this category, HEAP benefits are subtracted from the payments made by the household categories within this quintile of income.  HEAP benefits have also been subtracted from households in the second income quintile, based off the definition of 200% of the Federal Poverty Level based on family size [10] and based on the average family size of households by income quintile [5].  Average annual HEAP benefits for New York City households are set at $46.50[4]); this quantity is the annual HEAP benefit quantity used in the absence of rate modifications.
+</p>
+<table class="center">
+  <tr>
+  <th colspan="2" style="background-color: rgb(50, 40, 200)">TABLE 1: 200% of Federal Poverty Guidelines Chart (June 1, 2020 through May 31, 2021) [10]</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Family Size</td>
+  <td>Annual Income</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>$25,520</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>$34,480</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>$43,440</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>$52,400</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>$61,360</td>
+  </tr>
+  <tr>
+  <td>6</td>
+  <td>$70,320</td>
+  </tr>
+  <tr>
+  <td>7</td>
+  <td>$79,280</td>
+  </tr>
+  <tr>
+  <td>8</td>
+  <td>$88,240</td>
+  </tr>
+  <tr>
+  <td>>8</td>
+  <td>+$8,960 per family member</td>
+  </tr>
+</table>
+
+
+<table class="center">
+  <tr>
+  <th colspan="7" style="background-color: rgb(50, 40, 200)">TABLE 2: Income Quintile Information on Average Number of People Per Consumer Unit[5], Share of Aggregate Electricity and Gas Expenditures[5], Income[1]</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Income Quintile</td>
+  <td>Average People per Consumer Unit (Consumer Expenditure Survey, 2018)</td>
+  <td>Share of Annual Aggregate Natural Gas Expenditures</td>
+  <td>Share of Annual Aggregate Electricity Expenditures</td>
+  <td>Mean Annual Income Before Taxes</td>
+  <td>Mean Annual Income After Taxes</td>
+  <td>Lower Limit for Income Quintile</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>1.7</td>
+  <td>11.8</td>
+  <td>14.1</td>
+  <td>$11,285</td>
+  <td>$11,695</td>
+  <td>N/A</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>2.1</td>
+  <td>16.3</td>
+  <td>18.2</td>
+  <td>$31,237</td>
+  <td>$31,199</td>
+  <td>$21,293</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>2.5</td>
+  <td>18.7</td>
+  <td>19.7</td>
+  <td>$54,900</td>
+  <td>$51,211</td>
+  <td>$41,490</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>2.9</td>
+  <td>21.9</td>
+  <td>21.7</td>
+  <td>$90,478</td>
+  <td>$79,944</td>
+  <td>$70,367</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>3.2</td>
+  <td>31.3</td>
+  <td>26.3</td>
+  <td>$204,975</td>
+  <td>$161,954</td>
+  <td>$116,626</td>
+  </tr>
+</table>
+
+<table class="center">
+  <tr>
+  <th colspan="5" style="background-color: rgb(50, 40, 200)">TABLE 3: Results of Efforts to Remain Consistent With Known Electricity Data
+“*” indicates figures were calculated from Excel spreadsheet/website
+</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Income Quintile</td>
+  <td>Electricity Annual Consumption (kWh)*</td>
+  <td>Share of Aggregate Electricity Usage* (kWh)</td>
+  <td>Share of Aggregate Electricity Expenditures for U.S.[5]s</td>
+  <td>Percent Difference Between Fractions of Electricity Usage and Expenditure*</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>498,728,200</td>
+  <td>0.15</td>
+  <td>0.14</td>
+  <td>3.3%</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>553,430,261</td>
+  <td>0.17</td>
+  <td>0.18</td>
+  <td>-7.2%</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>616,829,950</td>
+  <td>0.20</td>
+  <td>0.20</td>
+  <td>-0.7%</td>
+
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>690,310,190</td>
+  <td>0.23</td>
+  <td>0.22</td>
+  <td>4.5%</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>775,473,788</td>
+  <td>0.26</td>
+  <td>0.26</td>
+  <td>0.0%</td>
+  </tr>
+  <tr>
+  <td>Total*</td>
+  <td>11,762,617,815</td>
+  <td colspan = 3 rowspan = 5></td>
+  </tr>
+  <tr>
+  <td>Total Electricity Delivered by Consolidated Edison to Residential/Religious Customers[9]</td>
+  <td>10,560,000,000</td>
+  </tr>
+  <tr>
+  <td>Average of Set Annual Consumptions for Household Types*</td>
+  <td>3,694</td>
+  </tr>
+  <tr>
+  <td>Median of Set Annual Consumptions for Categories (Consumption for Quintile Three, Medium Consumption)*</td>
+  <td>3,600</td>
+  </tr>
+  <tr>
+  <td>Residential Annual Consumption Calculated from Sample Residential Monthly Consumption[11]</td>
+  <td>3,600</td>
+  </tr>
+</table>
+
+
+<table class="center">
+  <tr>
+  <th colspan="5" style="background-color: rgb(50, 40, 200)">TABLE 4: Results of Efforts to Remain Consistent With Known Gas Data
+
+“*” indicates figures were calculated from Excel spreadsheet/website
+</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Income Quintile</td>
+  <td>Gas Annual Consumption (kWh)*</td>
+  <td>Share of Aggregate Gas Usage* (therms)</td>
+  <td>Share of Aggregate Gas Expenditures for U.S.[5]s</td>
+  <td>Percent Difference Between Fractions of Gas Usage and Expenditure*</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>117,055,054</td>
+  <td>0.13</td>
+  <td>0.12</td>
+  <td>13.9%</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>140,466,065</td>
+  <td>0.16</td>
+  <td>0.16</td>
+  <td>-1.1%</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>168,559,278</td>
+  <td>0.19</td>
+  <td>0.19</td>
+  <td>3.5%</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>202,271,134</td>
+  <td>0.23</td>
+  <td>0.22</td>
+  <td>6.0%</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>242,725,361</td>
+  <td>0.28</td>
+  <td>0.31</td>
+  <td>-11.0%</td>
+  </tr>
+  <tr>
+  <td>Total*</td>
+  <td>871,076,892</td>
+  <td colspan = 3 rowspan = 5></td>
+  </tr>
+  <tr>
+  <td>Total Gas Delivered by Consolidated Edison to Residential/Religious Customers[9]</td>
+  <td>544,020,000</td>
+  </tr>
+  <tr>
+  <td>Average of Set Annual Consumptions for Household Types*</td>
+  <td>1,045</td>
+  </tr>
+  <tr>
+  <td>Median of Set Annual Consumptions for Categories (Consumption for Quintile Three, Medium Consumption)*</td>
+  <td>1,000</td>
+  </tr>
+  <tr>
+  <td>Residential Annual Consumption Calculated from Sample Residential Monthly Consumption[11]</td>
+  <td>1,000</td>
+  </tr>
+</table>
+
+
+<p>The distribution of each income quintile across each usage level is considered to be equal – more specifically, the number of households per category is considered to be equal to .2*0.185 for the high and low usage categories and 0.2 * 0.63 for the medium usage category multiplied by the number of households (which is set as 3184496, in accordance with data from the New York City 2018 census[3].  
+</p><p>The number of New York City households in each of the fifteen household categories is obtained by multiplying the corresponding joint distribution value by the total number of households in New York City, set as 3,184,496[8].
+</p><p>Variable and fixed charges were calculated using figures from Consolidated Edison’s published “Sample Residential and Small Commercial Bill” [2].  Variable charge is defined as the sum of supply and delivery rates, while fixed charge is set as the sum of the merchant function charge, a basic service charge, a system benefit charge, the temporary NY State surcharge, GRT (gross receipts tax), and remaining tax surcharges.
+</p><p>An additional monthly charge for households in either of the second-highest expenditure categories was created along with an additional monthly charge for households in the highest expenditure category to compensate for revenue losses due to rate modifications.  As adjustments to rates also required adjustments to the values of these variables, the final values are detailed in the Results section.  The same applies to HEAP benefits, which were adjusted after each rate adjustment.
+</p><p>To determine whether equity requirements are satisfied, the program evaluates the percentage of annual household income paid towards gas and electricity by the household category falling under the high usage category and the first income quintile, as well as revenue from all household categories  The former must not exceed 6% and the latter must be at least zero.  If either constraint is violated, the spreadsheet will alert the user.
+</p><p>The Solver program (an add-in feature of Microsoft Excel) was initially used to try to find any potential solutions to the issue of making the highest expenditure, lowest-income category has a total cost burden under 6%, however, as these attempts proved unsuccessful, the inputs described in the Results section were obtained through repeated manual testing.</p>
+
+<table class="center">
+  <tr>
+  <th colspan="6" style="background-color: rgb(50, 40, 200)">TABLE 5: Electricity Usage Rates Based Off Calculations Using Fifteen Household Categories, Compared with Electricity Usage Statistics for the United States[5]
+“*” indicates figures were calculated from Excel spreadsheet/website
+</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Income Quintile</td>
+  <td>Annual electricity Usage (GWh)</td>
+  <td>Total Annual Electricity Usage (GWh)</td>
+  <td>Fraction of Total Electricity Usage Attributable to Quintile</td>
+  <td>Fraction of Total Electricity Expenditure Attributable to Quintile</td>
+  <td>Average Percent Difference</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>1,713.78</td>
+  <td rowspan = 5>11,762,62</td>
+  <td>0.15</td>
+  <td>0.14</td>
+  <td rowspan=5>0.04%</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>1,986.27</td>
+  <td>0.17</td>
+  <td>0.18</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>2,302.09</td>
+  <td>0.20</td>
+  <td>0.20</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>2,668.12</td>
+  <td>0.23</td>
+  <td>0.22</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>3,092.35</td>
+  <td>0.26</td>
+  <td>0.26</td>
+  </tr>
+</table>
+
+
+<table class="center">
+  <tr>
+  <th colspan="6" style="background-color: rgb(50, 40, 200)">TABLE 6: Gas Usage Rates Based Off Calculations Using Fifteen Household Categories, Compared with Gas Usage Statistics for the United States[5]
+“*” indicates figures were calculated from Excel spreadsheet/website
+</th>
+  </tr>
+  <tr style="background-color: rgb(50, 40, 200)">
+  <td>Income Quintile</td>
+  <td>Gas Usage (therms) Per Quintile</td>
+  <td>Total Annual Gas Usage (therms)</td>
+  <td>Fraction of Total Gas Usage Attributable to Quintile</td>
+  <td>Fraction of Total Gas Expenditure Attributable to Quintile</td>
+  <td>Average Percent Difference</td>
+  </tr>
+  <tr>
+  <td>1</td>
+  <td>117,055,054</td>
+  <td rowspan = 5>871,076,892</td>
+  <td>0.13</td>
+  <td>0.12</td>
+  <td rowspan=5>2.27%</td>
+  </tr>
+  <tr>
+  <td>2</td>
+  <td>140,466,065</td>
+  <td>0.16</td>
+  <td>0.16</td>
+  </tr>
+  <tr>
+  <td>3</td>
+  <td>168,559,278</td>
+  <td>0.19</td>
+  <td>0.19</td>
+  </tr>
+  <tr>
+  <td>4</td>
+  <td>202,271,133</td>
+  <td>0.23</td>
+  <td>0.22</td>
+  </tr>
+  <tr>
+  <td>5</td>
+  <td>242,725,361</td>
+  <td>0.28</td>
+  <td>0.31</td>
+  </tr>
+</table>
+
+</body>
+<br>
+<br>
+<br>
+<br>
+<br>
+<button style="float:left" class = "link" onclick="document.location='Introduction.htm'">&laquo; Go Back to Introduction</button>
+<button style="float:right" class = "link" onclick="document.location='Results.htm'">Continue to Results &raquo;</button>
+</html>
