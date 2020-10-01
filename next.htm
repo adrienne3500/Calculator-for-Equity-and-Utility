@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en-us">
 <meta charset="UTF-8"/>
@@ -18,7 +19,8 @@
 <div class="title">
 <h1><center>Calculator for Equity: Utility Pricing for the Residential Sector</center></h1>
 </div>
-
+<br>
+<br>
 
 <table class="center" id="mytable">
   <tr>
@@ -69,11 +71,13 @@
 <div class = "main">
 <center><canvas id="burdenChart" width="500" height="500"></canvas></center>
 <center><canvas id="revChart" width="500" height="700"></canvas></center>
+</div>
+<div class="main">
 <center><canvas id="burdenHistory" width="500" height="500"></canvas></center>
 <center><canvas id="revenueHistory" width="500" height="700"></canvas></center>
 </div>
 
-<div class="main" style="width: 80%; margin: 10px auto; max-width: 1200px; overflow-x:auto">
+<div class="main">
 <p id = "burden"></p>
 <p id = "revenue"></p>
 <p id = "conclusion"></p>
@@ -255,7 +259,6 @@ function makeDictionary(mykeys, vals, decide) {
         output += property + ': ' + ob[property]+'; ';
     }
     var myresult = hhcategories(ob);
-    alert(ob["benefits"]);
     return myresult;
 }
 
@@ -676,17 +679,13 @@ if (myvals[myvals.length-1] == 0) {
   sample = myvals;
   dict = makeDictionary(mykeys, sample);
   newdict = dict;
-  alert(JSON.stringify(newdict));
 
 } else {
   dict = makeDictionary(mykeys, sample);
   newdict = makeDictionary(mykeys, myvals);
 }
 var gas = dict[0];
-alert(1);
-alert(gas);
 var elec = dict[1];
-alert(elec);
 var comb = newdict[2];
 var rev_i = dict[3];
 var rev_f = newdict[3];
@@ -708,7 +707,6 @@ var clicks = 0;
 
 $(document).ready(function () {
   $("#graph_new").click(function(){
-    alert(8);
     var newob = {};
     $.each($("#form1").serializeArray(), function (i, field) {
         if (field.name == "quintile_one") {
@@ -987,7 +985,7 @@ var updatedburdenChart = new Chart(btx, {
             stack: "Stack 0",
             data: [elec_round[0], elec_round[1], elec_round[2], elec_round[3], elec_round[4], elec_round[5], elec_round[6], elec_round[7], elec_round[8], elec_round[9], elec_round[10], elec_round[11], elec_round[12], elec_round[13], elec_round[14]]},
           {
-            label: "Default Combined Cost Burden",
+            label: "Default Combined Cost Burden After Benefits and Any Rate Modifications",
             fontSize: 20,
             backgroundColor: "rgb(50, 0, 215)",
             borderColor: "rgb(255, 99, 132)",
