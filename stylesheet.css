@@ -3,6 +3,10 @@
       font-family: Georgia, serif; 
       font-size: 50px;
     }
+
+    a {
+      color: white;
+    }
     
     label {
       width: 900px; 
@@ -49,13 +53,13 @@
     }
     
 
-    #mytable td {
+    table.center td {
       padding: 18px;
       font-family: Georgia, serif;
       border: 1px solid rgb(0,0,70);
     }
 
-    #mytable th {
+    table.center th {
       padding: 20px;
       font-family: Georgia, serif;
       border: 1px solid rgb(0,0,70);
